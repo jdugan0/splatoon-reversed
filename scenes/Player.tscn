@@ -6,8 +6,9 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5q5h1"]
 
-[node name="Player" type="CharacterBody3D" unique_id=319218466 node_paths=PackedStringArray("head")]
+[node name="Player" type="CharacterBody3D" unique_id=319218466 node_paths=PackedStringArray("head", "camera")]
 script = ExtResource("1_p0vlq")
+MaxSpeed = 10.0
 AirAccel = 20.0
 JumpForce = 10.0
 head = NodePath("Head")
@@ -15,6 +16,7 @@ DashSpeed = 25.0
 DashTime = 0.2
 DashRechargeTime = 2.0
 WallJumpForce = 10.0
+camera = NodePath("Head/Camera3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1530428853]
 mesh = SubResource("CapsuleMesh_5q5h1")

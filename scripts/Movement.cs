@@ -1,4 +1,3 @@
-using System;
 using Godot;
 
 public partial class Movement : CharacterBody3D
@@ -50,6 +49,12 @@ public partial class Movement : CharacterBody3D
     [Export]
     private float WallJumpForce = 15f;
 
+    [Export]
+    private float WallLookAngleDeg = 10f;
+
+    [Export]
+    private Camera3D camera;
+
     private int currentDashes = 3;
     private float dashCoolDownTimer;
     private float dashRechargeTimer;
@@ -77,7 +82,7 @@ public partial class Movement : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
     {
-        GD.Print(Velocity.Length());
+        // GD.Print(Velocity.Length());
         float dt = (float)delta;
         Vector3 velocity = Velocity;
 
@@ -181,13 +186,25 @@ public partial class Movement : CharacterBody3D
             if (stop)
                 hVel = Vector3.Zero;
         }
-
         if (IsOnWallOnly())
         {
             Vector3 wallNormal = GetWallNormal();
-            float normalComponent = hVel.Dot(wallNormal);
-            if (normalComponent < 0)
-                hVel -= wallNormal * normalComponent;
+            Vector3 camForward3D = -camera.GlobalTransform.Basis.Z;
+            Vector3 camForwardH = new Vector3(camForward3D.X, 0, camForward3D.Z).Normalized();
+            float dotWithNormal = camForwardH.Dot(wallNormal);
+            float threshold = -Mathf.Cos(Mathf.DegToRad(WallLookAngleDeg));
+
+            if (dotWithNormal < threshold)
+            {
+                hVel = Vector3.Zero;
+            }
+            else
+            {
+                Vector3 slideDirH = camForwardH - wallNormal * dotWithNormal;
+                if (slideDirH.LengthSquared() > 0.001f)
+                    hVel = slideDirH.Normalized() * MaxSpeed;
+            }
+
             vVel = 0;
         }
         if (Input.IsActionJustPressed("jump"))
