@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dxqr76ls3k26o"]
+
+[ext_resource type="PackedScene" uid="uid://cciitvuaglfjq" path="res://scenes/Player.tscn" id="1_n1ku5"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_dr5pi"]
+size = Vector3(20, 1, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_n1ku5"]
+size = Vector3(1, 10, 1)
+
+[node name="Node3D" type="Node3D" unique_id=1763722837]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1345609277]
+mesh = SubResource("BoxMesh_dr5pi")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=122608780]
+mesh = SubResource("BoxMesh_n1ku5")
+
+[node name="Player" parent="." unique_id=319218466 instance=ExtResource("1_n1ku5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.04719, 1.7566524, 3.6919603)
