@@ -34,3 +34,7 @@ window/size/mode.editor=0
 [dotnet]
 
 project/assembly_name="SplatoonReversed"
+
+[filesystem]
+
+import/blender/enabled=false
