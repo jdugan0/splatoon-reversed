@@ -1,10 +1,14 @@
 [gd_scene format=3 uid="uid://cciitvuaglfjq"]
 
+[ext_resource type="Script" uid="uid://mifmlgcjc5d2" path="res://scripts/Movement.cs" id="1_p0vlq"]
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_5q5h1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5q5h1"]
 
-[node name="Player" type="CharacterBody3D" unique_id=319218466]
+[node name="Player" type="CharacterBody3D" unique_id=319218466 node_paths=PackedStringArray("head")]
+script = ExtResource("1_p0vlq")
+head = NodePath("Head")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1530428853]
 mesh = SubResource("CapsuleMesh_5q5h1")
@@ -12,5 +16,7 @@ mesh = SubResource("CapsuleMesh_5q5h1")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=158611132]
 shape = SubResource("CapsuleShape3D_5q5h1")
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=369125283]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49619746, 0)
+[node name="Head" type="Node3D" parent="." unique_id=1421803809]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head" unique_id=369125283]
