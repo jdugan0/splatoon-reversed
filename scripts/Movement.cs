@@ -32,6 +32,26 @@ public partial class Movement : CharacterBody3D
 
     private float _jumpBufferTimer = 0f;
 
+    [Export]
+    private float DashSpeed = 16f;
+
+    [Export]
+    private float DashCoolDown = 0.05f;
+
+    [Export]
+    private int DashMaxAmount = 3;
+
+    [Export]
+    private float DashTime = 1;
+
+    [Export]
+    private float DashRechargeTime;
+    private int currentDashes = 3;
+    private float dashCoolDownTimer;
+    private float dashRechargeTimer;
+    private float dashTimer;
+    private Vector3 dashDir;
+
     public override void _Ready()
     {
         Input.MouseMode = Input.MouseModeEnum.Captured;
@@ -53,9 +73,9 @@ public partial class Movement : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
     {
+        GD.Print(Velocity.Length());
         float dt = (float)delta;
         Vector3 velocity = Velocity;
-        Vector2 flatVelocity = new Vector2(velocity.X, velocity.Z);
 
         if (Input.IsActionJustPressed("jump"))
             _jumpBufferTimer = JumpBufferTime;
@@ -77,49 +97,93 @@ public partial class Movement : CharacterBody3D
 
         Vector3 hVel = new Vector3(velocity.X, 0, velocity.Z);
         float vVel = velocity.Y;
-        bool stop = false;
 
-        if (IsOnFloor())
+        // Dash timers
+        bool wasDashing = dashTimer > 0;
+        if (dashTimer > 0)
+            dashTimer -= dt;
+        if (wasDashing && dashTimer <= 0)
+            dashCoolDownTimer = DashCoolDown;
+
+        if (dashCoolDownTimer > 0)
+            dashCoolDownTimer -= dt;
+
+        if (currentDashes < DashMaxAmount)
         {
-            if (wishDir.LengthSquared() == 0)
+            dashRechargeTimer += dt;
+            if (dashRechargeTimer >= DashRechargeTime)
             {
-                Vector3 frictionDir = new Vector3(
-                    Mathf.Cos(flatVelocity.Angle()),
-                    0,
-                    Mathf.Sin(flatVelocity.Angle())
-                );
-                Vector3 frictionForce = frictionDir * Friction;
-                if (frictionForce.Length() * dt > hVel.Length())
-                    stop = true;
-                else
-                    hVel -= frictionForce * dt;
+                currentDashes++;
+                dashRechargeTimer = 0f;
             }
+        }
 
-            hVel += new Vector3(wishDir.X, 0, wishDir.Z) * GroundAccel * dt;
-            if (hVel.Length() > MaxSpeed)
-                hVel = hVel.Normalized() * MaxSpeed;
+        if (
+            Input.IsActionJustPressed("dash")
+            && currentDashes > 0
+            && dashTimer <= 0
+            && dashCoolDownTimer <= 0
+        )
+        {
+            Vector3 forward = new Vector3(
+                -GlobalTransform.Basis.Z.X,
+                0,
+                -GlobalTransform.Basis.Z.Z
+            ).Normalized();
+            dashDir = wishDir.LengthSquared() > 0.001f ? wishDir : forward;
+            dashTimer = DashTime;
+            currentDashes--;
+        }
+
+        if (dashTimer > 0)
+        {
+            hVel = dashDir * DashSpeed;
+            if (!IsOnFloor())
+                vVel -= Gravity * dt;
         }
         else
         {
-            vVel -= Gravity * dt;
-
-            Vector3 wishDirH = new Vector3(wishDir.X, 0, wishDir.Z);
-            float currentSpeedInWishDir = hVel.Dot(wishDirH);
-            float addSpeed = MaxSpeed - currentSpeedInWishDir;
-            if (addSpeed > 0)
+            bool stop = false;
+            if (IsOnFloor())
             {
-                float accelSpeed = Mathf.Min(AirAccel * dt, addSpeed);
-                hVel += wishDirH * accelSpeed;
+                if (wishDir.LengthSquared() == 0)
+                {
+                    Vector2 flatVelocity = new(hVel.X, hVel.Z);
+                    Vector3 frictionDir = new(
+                        Mathf.Cos(flatVelocity.Angle()),
+                        0,
+                        Mathf.Sin(flatVelocity.Angle())
+                    );
+                    Vector3 frictionForce = frictionDir * Friction;
+                    if (frictionForce.Length() * dt > hVel.Length())
+                        stop = true;
+                    else
+                        hVel -= frictionForce * dt;
+                }
+
+                hVel += new Vector3(wishDir.X, 0, wishDir.Z) * GroundAccel * dt;
+                if (hVel.Length() > MaxSpeed)
+                    hVel = hVel.Normalized() * MaxSpeed;
             }
+            else
+            {
+                vVel -= Gravity * dt;
+
+                Vector3 wishDirH = new Vector3(wishDir.X, 0, wishDir.Z);
+                float currentSpeedInWishDir = hVel.Dot(wishDirH);
+                float addSpeed = MaxSpeed - currentSpeedInWishDir;
+                if (addSpeed > 0)
+                {
+                    float accelSpeed = Mathf.Min(AirAccel * dt, addSpeed);
+                    hVel += wishDirH * accelSpeed;
+                }
+            }
+
+            if (stop)
+                hVel = Vector3.Zero;
         }
 
-        if (stop)
-        {
-            hVel = Vector3.Zero;
-        }
-
-        velocity = new Vector3(hVel.X, vVel, hVel.Z);
-        Velocity = velocity;
+        Velocity = new Vector3(hVel.X, vVel, hVel.Z);
         MoveAndSlide();
     }
 }
