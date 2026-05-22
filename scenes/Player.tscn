@@ -12,8 +12,9 @@ AirAccel = 20.0
 JumpForce = 10.0
 head = NodePath("Head")
 DashSpeed = 25.0
-DashTime = 0.1
+DashTime = 0.2
 DashRechargeTime = 2.0
+WallJumpForce = 10.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1530428853]
 mesh = SubResource("CapsuleMesh_5q5h1")

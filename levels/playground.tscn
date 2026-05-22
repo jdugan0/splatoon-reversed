@@ -23,6 +23,12 @@ sky_material = SubResource("ProceduralSkyMaterial_n1ku5")
 background_mode = 2
 sky = SubResource("Sky_jcyrx")
 
+[sub_resource type="BoxMesh" id="BoxMesh_jcyrx"]
+size = Vector3(1, 20, 20)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_qxjbg"]
+data = PackedVector3Array(-0.5, 10, 10, 0.5, 10, 10, -0.5, -10, 10, 0.5, 10, 10, 0.5, -10, 10, -0.5, -10, 10, 0.5, 10, -10, -0.5, 10, -10, 0.5, -10, -10, -0.5, 10, -10, -0.5, -10, -10, 0.5, -10, -10, 0.5, 10, 10, 0.5, 10, -10, 0.5, -10, 10, 0.5, 10, -10, 0.5, -10, -10, 0.5, -10, 10, -0.5, 10, -10, -0.5, 10, 10, -0.5, -10, -10, -0.5, 10, 10, -0.5, -10, 10, -0.5, -10, -10, 0.5, 10, 10, -0.5, 10, 10, 0.5, 10, -10, -0.5, 10, 10, -0.5, 10, -10, 0.5, 10, -10, -0.5, -10, 10, 0.5, -10, 10, -0.5, -10, -10, 0.5, -10, 10, 0.5, -10, -10, -0.5, -10, -10)
+
 [node name="Node3D" type="Node3D" unique_id=1763722837]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1345609277]
@@ -49,3 +55,12 @@ environment = SubResource("Environment_n1ku5")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=34267192]
 transform = Transform3D(0.7660444, -0.60402286, -0.21984632, -2.9900352e-08, -0.34202015, 0.9396926, -0.6427877, -0.71984625, -0.26200265, 0, 0, 0)
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1974903144]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.46619, 4.7683716e-07, 0.27319717)
+mesh = SubResource("BoxMesh_jcyrx")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D3" unique_id=134579324]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D3/StaticBody3D" unique_id=1872392671]
+shape = SubResource("ConcavePolygonShape3D_qxjbg")

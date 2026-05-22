@@ -46,6 +46,10 @@ public partial class Movement : CharacterBody3D
 
     [Export]
     private float DashRechargeTime;
+
+    [Export]
+    private float WallJumpForce = 15f;
+
     private int currentDashes = 3;
     private float dashCoolDownTimer;
     private float dashRechargeTimer;
@@ -77,23 +81,17 @@ public partial class Movement : CharacterBody3D
         float dt = (float)delta;
         Vector3 velocity = Velocity;
 
-        if (Input.IsActionJustPressed("jump"))
-            _jumpBufferTimer = JumpBufferTime;
-        else
-            _jumpBufferTimer -= dt;
-
-        if (_jumpBufferTimer > 0 && IsOnFloor())
-        {
-            velocity.Y = JumpForce;
-            _jumpBufferTimer = 0f;
-        }
-
         Vector2 input = Input.GetVector("move_left", "move_right", "move_forward", "move_back");
         Vector3 wishDir = GlobalTransform.Basis * new Vector3(input.X, 0, input.Y);
         if (wishDir.LengthSquared() > 0.001f)
             wishDir = wishDir.Normalized();
         else
             wishDir = Vector3.Zero;
+
+        if (IsOnWallOnly())
+        {
+            wishDir = Vector3.Zero;
+        }
 
         Vector3 hVel = new Vector3(velocity.X, 0, velocity.Z);
         float vVel = velocity.Y;
@@ -123,6 +121,7 @@ public partial class Movement : CharacterBody3D
             && currentDashes > 0
             && dashTimer <= 0
             && dashCoolDownTimer <= 0
+            && !IsOnWallOnly()
         )
         {
             Vector3 forward = new Vector3(
@@ -181,6 +180,33 @@ public partial class Movement : CharacterBody3D
 
             if (stop)
                 hVel = Vector3.Zero;
+        }
+
+        if (IsOnWallOnly())
+        {
+            Vector3 wallNormal = GetWallNormal();
+            float normalComponent = hVel.Dot(wallNormal);
+            if (normalComponent < 0)
+                hVel -= wallNormal * normalComponent;
+            vVel = 0;
+        }
+        if (Input.IsActionJustPressed("jump"))
+            _jumpBufferTimer = JumpBufferTime;
+        else
+            _jumpBufferTimer -= dt;
+
+        if (_jumpBufferTimer > 0 && IsOnFloor())
+        {
+            vVel = JumpForce;
+            _jumpBufferTimer = 0f;
+        }
+        else if (_jumpBufferTimer > 0 && IsOnWallOnly())
+        {
+            Vector3 wallNormal = GetWallNormal();
+            vVel = JumpForce;
+            hVel.X = wallNormal.X * WallJumpForce;
+            hVel.Z = wallNormal.Z * WallJumpForce;
+            _jumpBufferTimer = 0f;
         }
 
         Velocity = new Vector3(hVel.X, vVel, hVel.Z);
