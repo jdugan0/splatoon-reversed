@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dayb6ocqlv7iq"]
+
+[ext_resource type="PackedScene" uid="uid://bogcel2by2ugm" path="res://art/models/objectTiles.glb" id="1_hm6ca"]
+
+[node name="Objectties" type="Node3D" unique_id=577591536]
+
+[node name="objectTiles" parent="." unique_id=469023361 instance=ExtResource("1_hm6ca")]

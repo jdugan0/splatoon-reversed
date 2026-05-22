@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dxbw028tecq0b"
-path.s3tc="res://.godot/imported/tileset_locker1.png-9a0baace1d03f358dfb2f52effd0e0d5.s3tc.ctex"
+uid="uid://bwi686kpqrcyj"
+path.s3tc="res://.godot/imported/wallTiles_blue-plastic.png-644717b41c18c1f9666db95538635335.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "e29096c732efde6c7a7fb1fd0db4c00c"
+"md5": "d9a43f5338ea37caee0418151bd49f12"
 }
 
 [deps]
 
-source_file="res://art/models/tileset_locker1.png"
-dest_files=["res://.godot/imported/tileset_locker1.png-9a0baace1d03f358dfb2f52effd0e0d5.s3tc.ctex"]
+source_file="res://art/models/wallTiles_blue-plastic.png"
+dest_files=["res://.godot/imported/wallTiles_blue-plastic.png-644717b41c18c1f9666db95538635335.s3tc.ctex"]
 
 [params]
 

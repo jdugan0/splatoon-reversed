@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jms4r3rvw5l7"
-path.s3tc="res://.godot/imported/tileset_blue-plastic.png-8beb95ade7ae9f75dca085abaae99f5a.s3tc.ctex"
+uid="uid://c6xagapao4gwr"
+path.s3tc="res://.godot/imported/wallTiles_black-plastic.png-1c5e8c4a6718b66aa96b999e4c093960.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "d9a43f5338ea37caee0418151bd49f12"
+"md5": "d80a026999710f9f0d67d80370b4ba03"
 }
 
 [deps]
 
-source_file="res://art/models/tileset_blue-plastic.png"
-dest_files=["res://.godot/imported/tileset_blue-plastic.png-8beb95ade7ae9f75dca085abaae99f5a.s3tc.ctex"]
+source_file="res://art/models/wallTiles_black-plastic.png"
+dest_files=["res://.godot/imported/wallTiles_black-plastic.png-1c5e8c4a6718b66aa96b999e4c093960.s3tc.ctex"]
 
 [params]
 

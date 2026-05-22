@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cgfke36n1mg4h"
-path.s3tc="res://.godot/imported/tileset_stairs.png-0d84ed0597266e96c8f1877cf39b842d.s3tc.ctex"
+uid="uid://cejdrc5kbhw6p"
+path.s3tc="res://.godot/imported/objectTiles_trash.png-679e00053790dcb1e4e5af33726788a3.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "1cd16021f12001d29fe622ff552faa24"
+"md5": "cb8f3de9713ab23c334d351448f5b08a"
 }
 
 [deps]
 
-source_file="res://art/models/tileset_stairs.png"
-dest_files=["res://.godot/imported/tileset_stairs.png-0d84ed0597266e96c8f1877cf39b842d.s3tc.ctex"]
+source_file="res://art/models/objectTiles_trash.png"
+dest_files=["res://.godot/imported/objectTiles_trash.png-679e00053790dcb1e4e5af33726788a3.s3tc.ctex"]
 
 [params]
 

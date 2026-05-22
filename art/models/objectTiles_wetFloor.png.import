@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://uy1wxbc0yuk5"
-path.s3tc="res://.godot/imported/tileset_trash.png-4a00613e967ddf1545aced6a91563aa7.s3tc.ctex"
+uid="uid://kd3f3csk64bt"
+path.s3tc="res://.godot/imported/objectTiles_wetFloor.png-e041eb799b025f97a69d816d03a63c75.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "cb8f3de9713ab23c334d351448f5b08a"
+"md5": "80c1b96a59d13ce6a06022530429354b"
 }
 
 [deps]
 
-source_file="res://art/models/tileset_trash.png"
-dest_files=["res://.godot/imported/tileset_trash.png-4a00613e967ddf1545aced6a91563aa7.s3tc.ctex"]
+source_file="res://art/models/objectTiles_wetFloor.png"
+dest_files=["res://.godot/imported/objectTiles_wetFloor.png-e041eb799b025f97a69d816d03a63c75.s3tc.ctex"]
 
 [params]
 

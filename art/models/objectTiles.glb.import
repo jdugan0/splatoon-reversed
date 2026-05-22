@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b1xhrcdwqxo1x"
-path="res://.godot/imported/tileset.glb-59cdb2f825d9a33687f7f1ba4e2f44a9.scn"
+uid="uid://bogcel2by2ugm"
+path="res://.godot/imported/objectTiles.glb-baf54bd83a48942f2b1ef0086268e0a9.scn"
 
 [deps]
 
-source_file="res://art/models/tileset.glb"
-dest_files=["res://.godot/imported/tileset.glb-59cdb2f825d9a33687f7f1ba4e2f44a9.scn"]
+source_file="res://art/models/objectTiles.glb"
+dest_files=["res://.godot/imported/objectTiles.glb-baf54bd83a48942f2b1ef0086268e0a9.scn"]
 
 [params]
 
