@@ -8,6 +8,8 @@
 
 [node name="Player" type="CharacterBody3D" unique_id=319218466 node_paths=PackedStringArray("head")]
 script = ExtResource("1_p0vlq")
+AirAccel = 20.0
+JumpForce = 10.0
 head = NodePath("Head")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1530428853]
