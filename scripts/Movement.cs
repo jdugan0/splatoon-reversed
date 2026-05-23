@@ -168,7 +168,10 @@ public partial class Movement : CharacterBody3D
             footstepTimer += dt;
             if (footstepTimer >= FootStepAmt/velocity.Length())
             {
-                AudioManager.instance.PlaySFX("step-concrete-clean");
+                if (dirty)
+                    AudioManager.instance.PlaySFX("step-concrete-heavy");
+                else 
+                    AudioManager.instance.PlaySFX("step-concrete-clean");
                 footstepTimer = 0f;
             } 
         }
