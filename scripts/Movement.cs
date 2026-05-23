@@ -48,6 +48,10 @@ public partial class Movement : CharacterBody3D
 
     [Export]
     private float DashRechargeTime;
+    [Export]
+    private float FootstepTime;
+    [Export]
+    private float FootStepAmt = 3.5f;
 
     [Export]
     private float WallJumpForce = 15f;
@@ -64,6 +68,7 @@ public partial class Movement : CharacterBody3D
     private int currentDashes = 3;
     private float dashCoolDownTimer;
     private float dashRechargeTimer;
+    private float footstepTimer;
     private float dashTimer;
     private Vector3 dashDir;
     private bool _wasOnWall = false;
@@ -157,6 +162,17 @@ public partial class Movement : CharacterBody3D
                 dashRechargeTimer = 0f;
             }
         }
+        // FOOTSTEP SFX
+        if (velocity.Length() > 0 && IsOnFloor() && !wasDashing)
+        {
+            footstepTimer += dt;
+            if (footstepTimer >= FootStepAmt/velocity.Length())
+            {
+                AudioManager.instance.PlaySFX("step-concrete-clean");
+                footstepTimer = 0f;
+            } 
+        }
+        //
 
         if (
             Input.IsActionJustPressed("dash")
@@ -174,6 +190,7 @@ public partial class Movement : CharacterBody3D
             dashDir = wishDir.LengthSquared() > 0.001f ? wishDir : forward;
             dashTimer = DashTime;
             currentDashes--;
+            AudioManager.instance.PlaySFX("generic-woosh");
         }
 
         if (dashTimer > 0)
@@ -271,6 +288,8 @@ public partial class Movement : CharacterBody3D
             hVel += wishDir * JumpBoostForce;
             vVel = JumpForce;
             _jumpBufferTimer = 0f;
+            //sfx
+            AudioManager.instance.PlaySFX("generic-woosh");
         }
         else if (_jumpBufferTimer > 0 && IsOnWallOnly())
         {
@@ -279,6 +298,8 @@ public partial class Movement : CharacterBody3D
             hVel.X = wallNormal.X * WallJumpForce;
             hVel.Z = wallNormal.Z * WallJumpForce;
             _jumpBufferTimer = 0f;
+            //sfx
+            AudioManager.instance.PlaySFX("generic-woosh");
         }
 
         Velocity = new Vector3(hVel.X, vVel, hVel.Z);

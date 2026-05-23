@@ -63,6 +63,7 @@ shape = SubResource("ConcavePolygonShape3D_jcyrx")
 
 [node name="Player" parent="." unique_id=319218466 instance=ExtResource("1_n1ku5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.04719, 1.7566524, 3.6919603)
+FootstepTime = 1.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1148080846]
 environment = SubResource("Environment_n1ku5")
