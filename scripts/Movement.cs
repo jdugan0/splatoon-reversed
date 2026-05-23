@@ -74,6 +74,7 @@ public partial class Movement : CharacterBody3D
     private bool _wasOnWall = false;
     private float _wallSlideSpeed = 0f;
     private Vector3 _wallSlideDir = Vector3.Zero;
+    private bool _wasOnFloor = false;
     private bool dirty = false;
 
     [Export]
@@ -175,7 +176,6 @@ public partial class Movement : CharacterBody3D
                 footstepTimer = 0f;
             } 
         }
-        //
 
         if (
             Input.IsActionJustPressed("dash")
@@ -207,6 +207,9 @@ public partial class Movement : CharacterBody3D
             bool stop = false;
             if (IsOnFloor())
             {
+                if (!_wasOnFloor)
+                    AudioManager.instance.PlaySFX("move-land");
+                _wasOnFloor = true;
                 if (wishDir.LengthSquared() == 0 || hVel.Length() > MaxSpeed)
                 {
                     Vector2 flatVelocity = new(hVel.X, hVel.Z);
@@ -237,6 +240,7 @@ public partial class Movement : CharacterBody3D
             }
             else
             {
+                _wasOnFloor = false;
                 vVel -= Gravity * dt;
 
                 Vector3 wishDirH = new Vector3(wishDir.X, 0, wishDir.Z);
@@ -296,7 +300,6 @@ public partial class Movement : CharacterBody3D
             hVel += wishDir * JumpBoostForce;
             vVel = JumpForce;
             _jumpBufferTimer = 0f;
-            //sfx
             AudioManager.instance.PlaySFX("generic-woosh");
         }
         else if (_jumpBufferTimer > 0 && IsOnWallOnly())
@@ -306,7 +309,6 @@ public partial class Movement : CharacterBody3D
             hVel.X = wallNormal.X * WallJumpForce;
             hVel.Z = wallNormal.Z * WallJumpForce;
             _jumpBufferTimer = 0f;
-            //sfx
             AudioManager.instance.PlaySFX("generic-woosh");
         }
 
