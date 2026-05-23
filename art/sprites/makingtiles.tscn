@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bpva86da76w7a"]
+
+[ext_resource type="MeshLibrary" uid="uid://dgq172e8f3o8f" path="res://art/sprites/wallTiles.meshlib" id="1_48hi1"]
+[ext_resource type="MeshLibrary" uid="uid://dluricy311l7s" path="res://art/sprites/objectTiles.meshlib" id="2_m3lyh"]
+
+[node name="Makingtiles" type="Node3D" unique_id=1817231004]
+
+[node name="GridMap" type="GridMap" parent="." unique_id=287821636]
+mesh_library = ExtResource("1_48hi1")
+data = {
+"cells": PackedInt32Array(65535, 65534, 2, 0, 65534, 1, 1, 65534, 1, 2, 65534, 1, 2, 65535, 4, 1, 65535, 4, 0, 65535, 4, 65535, 65535, 4)
+}
+
+[node name="GridMap2" type="GridMap" parent="." unique_id=242556176]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.09, 0.04, -0.675)
+mesh_library = ExtResource("2_m3lyh")
+data = {
+"cells": PackedInt32Array(65535, 65534, 2, 0, 65534, 1, 1, 65534, 1, 2, 65534, 1, 2, 65535, 4, 1, 65535, 4, 0, 65535, 4, 65535, 65535, 3, 1, 1, 0)
+}
