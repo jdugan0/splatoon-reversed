@@ -32,6 +32,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head" unique_id=369125283]
 
-[node name="FirePoint" type="Node3D" parent="." unique_id=767676035]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51, -0.71)
+[node name="FirePoint" type="Node3D" parent="Head/Camera3D" unique_id=767676035]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.71)
 script = ExtResource("2_v6fml")
