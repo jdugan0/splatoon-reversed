@@ -266,6 +266,7 @@ public partial class Movement : CharacterBody3D
                 Vector3 slideDirH = camForwardH - wallNormal * dotWithNormal;
                 _wallSlideDir =
                     slideDirH.LengthSquared() > 0.001f ? slideDirH.Normalized() : Vector3.Zero;
+                AudioManager.instance.PlaySFX("move-wallslide-loop");
             }
 
             _wallSlideSpeed = Mathf.Max(0f, _wallSlideSpeed - WallFriction * dt);
@@ -280,6 +281,10 @@ public partial class Movement : CharacterBody3D
             }
 
             vVel = 0f;
+        }
+        else
+        {
+            AudioManager.instance.CancelSFX("move-wallslide-loop");
         }
         if (Input.IsActionJustPressed("jump"))
             _jumpBufferTimer = JumpBufferTime;
