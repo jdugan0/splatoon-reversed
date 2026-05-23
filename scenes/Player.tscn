@@ -10,6 +10,7 @@
 script = ExtResource("1_p0vlq")
 MaxSpeed = 10.0
 AirAccel = 20.0
+WallFriction = 5.0
 JumpForce = 10.0
 head = NodePath("Head")
 DashSpeed = 25.0

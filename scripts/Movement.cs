@@ -68,6 +68,7 @@ public partial class Movement : CharacterBody3D
     private Vector3 dashDir;
     private bool _wasOnWall = false;
     private float _wallSlideSpeed = 0f;
+    private Vector3 _wallSlideDir = Vector3.Zero;
 
     public override void _Ready()
     {
@@ -212,19 +213,22 @@ public partial class Movement : CharacterBody3D
             float threshold = -Mathf.Cos(Mathf.DegToRad(WallLookAngleDeg));
 
             if (!_wasOnWall)
+            {
                 _wallSlideSpeed = new Vector3(velocity.X, 0, velocity.Z).Length() * 1.5f;
+                Vector3 slideDirH = camForwardH - wallNormal * dotWithNormal;
+                _wallSlideDir =
+                    slideDirH.LengthSquared() > 0.001f ? slideDirH.Normalized() : Vector3.Zero;
+            }
+
             _wallSlideSpeed = Mathf.Max(0f, _wallSlideSpeed - WallFriction * dt);
 
             if (dotWithNormal < threshold)
             {
-                GD.Print("BANG!");
                 hVel = Vector3.Zero;
             }
             else
             {
-                Vector3 slideDirH = camForwardH - wallNormal * dotWithNormal;
-                if (slideDirH.LengthSquared() > 0.001f)
-                    hVel = slideDirH.Normalized() * _wallSlideSpeed;
+                hVel = _wallSlideDir * _wallSlideSpeed;
             }
 
             vVel = 0f;
