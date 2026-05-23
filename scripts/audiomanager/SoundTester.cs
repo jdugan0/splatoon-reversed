@@ -18,5 +18,19 @@ public partial class SoundTester : Node
 			AudioManager.instance.CancelSFX("gun-spray-start");
 			AudioManager.instance.CancelSFX("gun-spray-loop");
 		}
+
+		
+        if (Input.IsActionJustPressed("move_forward"))
+		{
+			AudioManager.instance.PlaySFX("movement-screech-start");
+			AudioManager.instance.PlaySFX("movement-screech-loop");
+			AudioManager.instance.CancelSFX("movement-screech-end");
+		}
+        if (Input.IsActionJustReleased("move_forward"))
+		{
+			AudioManager.instance.PlaySFX("movement-screech-end");
+			AudioManager.instance.CancelSFX("movement-screech-loop");
+			AudioManager.instance.CancelSFX("movement-screech-start");
+		}
 	}
 }
