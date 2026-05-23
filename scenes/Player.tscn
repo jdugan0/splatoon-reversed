@@ -16,6 +16,7 @@ DashSpeed = 25.0
 DashTime = 0.2
 DashRechargeTime = 2.0
 WallJumpForce = 10.0
+JumpBoostForce = 2.0
 camera = NodePath("Head/Camera3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1530428853]

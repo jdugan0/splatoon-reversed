@@ -15,6 +15,9 @@ public partial class Movement : CharacterBody3D
     private float Friction = 100f;
 
     [Export]
+    private float WallFriction = 20f;
+
+    [Export]
     private float JumpForce = 30f;
 
     [Export]
@@ -53,6 +56,9 @@ public partial class Movement : CharacterBody3D
     private float WallLookAngleDeg = 10f;
 
     [Export]
+    private float JumpBoostForce = 5f;
+
+    [Export]
     private Camera3D camera;
 
     private int currentDashes = 3;
@@ -60,6 +66,8 @@ public partial class Movement : CharacterBody3D
     private float dashRechargeTimer;
     private float dashTimer;
     private Vector3 dashDir;
+    private bool _wasOnWall = false;
+    private float _wallSlideSpeed = 0f;
 
     public override void _Ready()
     {
@@ -150,7 +158,7 @@ public partial class Movement : CharacterBody3D
             bool stop = false;
             if (IsOnFloor())
             {
-                if (wishDir.LengthSquared() == 0)
+                if (wishDir.LengthSquared() == 0 || hVel.Length() > MaxSpeed)
                 {
                     Vector2 flatVelocity = new(hVel.X, hVel.Z);
                     Vector3 frictionDir = new(
@@ -164,10 +172,19 @@ public partial class Movement : CharacterBody3D
                     else
                         hVel -= frictionForce * dt;
                 }
-
-                hVel += new Vector3(wishDir.X, 0, wishDir.Z) * GroundAccel * dt;
-                if (hVel.Length() > MaxSpeed)
-                    hVel = hVel.Normalized() * MaxSpeed;
+                if (
+                    (hVel + new Vector3(wishDir.X, 0, wishDir.Z) * GroundAccel * dt).Length()
+                    <= MaxSpeed
+                )
+                {
+                    hVel += new Vector3(wishDir.X, 0, wishDir.Z) * GroundAccel * dt;
+                }
+                else
+                {
+                    float l = hVel.Length();
+                    hVel += new Vector3(wishDir.X, 0, wishDir.Z) * GroundAccel * dt;
+                    hVel = hVel.Normalized() * l;
+                }
             }
             else
             {
@@ -194,18 +211,23 @@ public partial class Movement : CharacterBody3D
             float dotWithNormal = camForwardH.Dot(wallNormal);
             float threshold = -Mathf.Cos(Mathf.DegToRad(WallLookAngleDeg));
 
+            if (!_wasOnWall)
+                _wallSlideSpeed = new Vector3(velocity.X, 0, velocity.Z).Length() * 1.5f;
+            _wallSlideSpeed = Mathf.Max(0f, _wallSlideSpeed - WallFriction * dt);
+
             if (dotWithNormal < threshold)
             {
+                GD.Print("BANG!");
                 hVel = Vector3.Zero;
             }
             else
             {
                 Vector3 slideDirH = camForwardH - wallNormal * dotWithNormal;
                 if (slideDirH.LengthSquared() > 0.001f)
-                    hVel = slideDirH.Normalized() * MaxSpeed;
+                    hVel = slideDirH.Normalized() * _wallSlideSpeed;
             }
 
-            vVel = 0;
+            vVel = 0f;
         }
         if (Input.IsActionJustPressed("jump"))
             _jumpBufferTimer = JumpBufferTime;
@@ -214,6 +236,7 @@ public partial class Movement : CharacterBody3D
 
         if (_jumpBufferTimer > 0 && IsOnFloor())
         {
+            hVel += wishDir * JumpBoostForce;
             vVel = JumpForce;
             _jumpBufferTimer = 0f;
         }
@@ -227,6 +250,7 @@ public partial class Movement : CharacterBody3D
         }
 
         Velocity = new Vector3(hVel.X, vVel, hVel.Z);
+        _wasOnWall = IsOnWallOnly();
         MoveAndSlide();
     }
 }
