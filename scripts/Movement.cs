@@ -69,6 +69,10 @@ public partial class Movement : CharacterBody3D
     private bool _wasOnWall = false;
     private float _wallSlideSpeed = 0f;
     private Vector3 _wallSlideDir = Vector3.Zero;
+    private bool dirty = false;
+
+    [Export]
+    private Area3D area;
 
     public override void _Ready()
     {
@@ -90,9 +94,32 @@ public partial class Movement : CharacterBody3D
         }
     }
 
+    public void CheckDirty()
+    {
+        dirty = false;
+        foreach (var body in area.GetOverlappingBodies())
+        {
+            if (body.GetParent() is DirtyWall wall)
+            {
+                if (wall.SampleDirtAt(GlobalPosition) is float d && d > 0.5f)
+                {
+                    // GD.Print(dirty);
+                    // GD.Print("DEBUG");
+                    dirty = true;
+                }
+            }
+        }
+    }
+
+    public bool GetDirty()
+    {
+        return dirty;
+    }
+
     public override void _PhysicsProcess(double delta)
     {
-        // GD.Print(Velocity.Length());
+        CheckDirty();
+        GD.Print(dirty);
         float dt = (float)delta;
         Vector3 velocity = Velocity;
 
