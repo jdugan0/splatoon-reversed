@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://b8nrxgoo8hv7r"]
+
+[ext_resource type="Script" uid="uid://c62owbmxycwsn" path="res://scripts/audiomanager/SoundTester.cs" id="1_jqryc"]
+
+[node name="SoundTester" type="Node2D" unique_id=1409239004 node_paths=PackedStringArray("player")]
+script = ExtResource("1_jqryc")
+player = NodePath("")

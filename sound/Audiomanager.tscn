@@ -1,7 +1,29 @@
 [gd_scene format=3 uid="uid://d3df3pqxnto64"]
 
 [ext_resource type="Script" uid="uid://bgxrlc5jnr4u" path="res://scripts/audiomanager/AudioManager.cs" id="1_ulbmk"]
+[ext_resource type="Script" uid="uid://007myadtw53h" path="res://scripts/audiomanager/Sound.cs" id="2_4v7og"]
+[ext_resource type="AudioStream" uid="uid://ywgaowna7ud2" path="res://sound/sfx/item/gun/gun-spray-start.wav" id="3_miac2"]
+[ext_resource type="AudioStream" uid="uid://bb862xgnefh3m" path="res://sound/sfx/item/gun/gun-spray-loop.wav" id="4_61dpu"]
+[ext_resource type="AudioStream" uid="uid://qh2fw5vlmm8h" path="res://sound/sfx/item/gun/gun-spray-end.wav" id="5_61dpu"]
+
+[sub_resource type="Resource" id="Resource_2sci7"]
+script = ExtResource("2_4v7og")
+stream = ExtResource("3_miac2")
+name = "gun-spray-start"
+metadata/_custom_type_script = "uid://007myadtw53h"
+
+[sub_resource type="Resource" id="Resource_61wlx"]
+script = ExtResource("2_4v7og")
+stream = ExtResource("4_61dpu")
+name = "gun-spray-loop"
+metadata/_custom_type_script = "uid://007myadtw53h"
+
+[sub_resource type="Resource" id="Resource_f2xqn"]
+script = ExtResource("2_4v7og")
+stream = ExtResource("5_61dpu")
+name = "gun-spray-end"
+metadata/_custom_type_script = "uid://007myadtw53h"
 
 [node name="Audiomanager" type="Node" unique_id=2079784028]
 script = ExtResource("1_ulbmk")
-sounds = Array[Object]([null])
+sounds = Array[Object]([SubResource("Resource_2sci7"), SubResource("Resource_61wlx"), SubResource("Resource_f2xqn")])
