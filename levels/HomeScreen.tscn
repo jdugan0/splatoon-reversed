@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://b0poksv8w7oef"]
+
+[ext_resource type="Texture2D" uid="uid://dvj0w628bkn8e" path="res://art/ui/home-background.png" id="1_bjvx2"]
+[ext_resource type="Theme" uid="uid://dlnyyokfrusi5" path="res://art/ui/homeScreen3.tres" id="2_l1h2q"]
+[ext_resource type="Theme" uid="uid://dgktg0bbhd4ip" path="res://art/ui/homeScreen.tres" id="3_gi7ve"]
+[ext_resource type="Theme" uid="uid://bg7qym4kqiv7e" path="res://art/ui/homeScreen2.tres" id="4_ownjv"]
+[ext_resource type="Texture2D" uid="uid://bdyltr0gyu07q" path="res://art/ui/gamelogo.png" id="5_i3b6o"]
+
+[node name="HomeScreen" type="Control" unique_id=769609286]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2066991100]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_bjvx2")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextureRect" unique_id=686193526]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 482.0
+offset_top = 411.0
+offset_right = -482.0
+offset_bottom = -101.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_l1h2q")
+theme_override_constants/separation = 53
+
+[node name="Button" type="Button" parent="TextureRect/VBoxContainer" unique_id=246450642]
+layout_mode = 2
+theme = ExtResource("3_gi7ve")
+text = "PLAY"
+
+[node name="Button2" type="Button" parent="TextureRect/VBoxContainer" unique_id=1449706674]
+layout_mode = 2
+theme = ExtResource("4_ownjv")
+text = "SETTINGS"
+
+[node name="Button3" type="Button" parent="TextureRect/VBoxContainer" unique_id=443612962]
+layout_mode = 2
+theme = ExtResource("2_l1h2q")
+text = "QUIT"
+
+[node name="TextureRect" type="TextureRect" parent="TextureRect" unique_id=1375725262]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 225.0
+offset_top = -31.0
+offset_right = -225.0
+offset_bottom = -669.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_i3b6o")

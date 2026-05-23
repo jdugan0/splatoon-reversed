@@ -1,0 +1,19 @@
+[gd_resource type="Theme" format=3 uid="uid://dgktg0bbhd4ip"]
+
+[ext_resource type="FontFile" uid="uid://cyxwyqbyjvduf" path="res://art/ui/impact.ttf" id="1_lpxyh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8n54k"]
+bg_color = Color(0.13022655, 0.081357844, 6.016344e-09, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f7unf"]
+bg_color = Color(0.38431373, 0.05882353, 0.3882353, 1)
+
+[resource]
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0.28469235, 0.69888127, 0, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/font_sizes/font_size = 125
+Button/fonts/font = ExtResource("1_lpxyh")
+Button/styles/hover = SubResource("StyleBoxFlat_8n54k")
+Button/styles/normal = SubResource("StyleBoxFlat_f7unf")
+Button/styles/pressed = SubResource("StyleBoxFlat_f7unf")
