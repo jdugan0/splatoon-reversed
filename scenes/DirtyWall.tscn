@@ -8,6 +8,7 @@
 render_priority = 0
 shader = ExtResource("1_wm61p")
 shader_parameter/dirty_texture = ExtResource("2_4dtpq")
+shader_parameter/dirty_tiling = Vector2(1, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_i0qwl"]
 material = SubResource("ShaderMaterial_wm61p")
@@ -41,6 +42,7 @@ render_target_update_mode = 0
 texture = SubResource("GradientTexture2D_76hdp")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=321394781]
+collision_layer = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1718720954]
 shape = SubResource("BoxShape3D_yxrnd")
