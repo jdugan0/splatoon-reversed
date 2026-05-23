@@ -18,10 +18,10 @@ public partial class Brush : Node3D
 
             if (result.Count > 0)
             {
-                var collider = result["collider"].As<Node>();
-                if (collider != null && collider.IsInGroup("dirt"))
+                var collider = result["collider"].As<Node>().GetParent();
+                if (collider != null && collider is DirtyWall c)
                 {
-                    GD.Print("Hit dirt at ", result["position"]);
+                    c.Paint(result["position"].AsVector3());
                 }
             }
         }

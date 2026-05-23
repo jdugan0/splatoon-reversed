@@ -2,6 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://cciitvuaglfjq" path="res://scenes/Player.tscn" id="1_n1ku5"]
 [ext_resource type="PackedScene" uid="uid://kyr45hgci1qe" path="res://scenes/Blob.tscn" id="2_jcyrx"]
+[ext_resource type="PackedScene" uid="uid://cfspjjmplybf" path="res://scenes/DirtyWall.tscn" id="3_qxjbg"]
+[ext_resource type="Shader" uid="uid://cshodnmlnbrbm" path="res://scripts/DirtyWall.gdshader" id="4_ek3o3"]
+[ext_resource type="Texture2D" uid="uid://c31aqr67vp834" path="res://art/sprites/dirt-1.Diffuse.png" id="5_1y5p2"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_dr5pi"]
 size = Vector3(20, 1, 20)
@@ -29,6 +32,16 @@ size = Vector3(1, 20, 20)
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_qxjbg"]
 data = PackedVector3Array(-0.5, 10, 10, 0.5, 10, 10, -0.5, -10, 10, 0.5, 10, 10, 0.5, -10, 10, -0.5, -10, 10, 0.5, 10, -10, -0.5, 10, -10, 0.5, -10, -10, -0.5, 10, -10, -0.5, -10, -10, 0.5, -10, -10, 0.5, 10, 10, 0.5, 10, -10, 0.5, -10, 10, 0.5, 10, -10, 0.5, -10, -10, 0.5, -10, 10, -0.5, 10, -10, -0.5, 10, 10, -0.5, -10, -10, -0.5, 10, 10, -0.5, -10, 10, -0.5, -10, -10, 0.5, 10, 10, -0.5, 10, 10, 0.5, 10, -10, -0.5, 10, 10, -0.5, 10, -10, 0.5, 10, -10, -0.5, -10, 10, 0.5, -10, 10, -0.5, -10, -10, 0.5, -10, 10, 0.5, -10, -10, -0.5, -10, -10)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wm61p"]
+render_priority = 0
+shader = ExtResource("4_ek3o3")
+shader_parameter/dirty_texture = ExtResource("5_1y5p2")
+shader_parameter/dirty_tiling = Vector2(1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_i7xqd"]
+material = SubResource("ShaderMaterial_wm61p")
+size = Vector2(20, 2)
 
 [node name="Node3D" type="Node3D" unique_id=1763722837]
 
@@ -77,3 +90,7 @@ shape = SubResource("ConcavePolygonShape3D_qxjbg")
 
 [node name="Blob" parent="." unique_id=855743990 instance=ExtResource("2_jcyrx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5827913, 3.997353, -7.7908535)
+
+[node name="DirtyWall" parent="." unique_id=2134427755 instance=ExtResource("3_qxjbg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.727948, 1.8699546, -6.6772633)
+mesh = SubResource("PlaneMesh_i7xqd")

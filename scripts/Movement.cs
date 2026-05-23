@@ -24,7 +24,7 @@ public partial class Movement : CharacterBody3D
     private float Gravity = 25f;
 
     [Export]
-    private float MouseSensitivity = 0.002f;
+    private float MouseSensitivity = 1.5f;
 
     [Export]
     private float JumpBufferTime = 0.15f;
@@ -79,8 +79,9 @@ public partial class Movement : CharacterBody3D
     {
         if (@event is InputEventMouseMotion motion)
         {
-            RotateY(-motion.Relative.X * MouseSensitivity);
-            head.RotateX(-motion.Relative.Y * MouseSensitivity);
+            Vector2 viewportSize = GetViewport().GetVisibleRect().Size;
+            RotateY(-motion.Relative.X / viewportSize.X * MouseSensitivity);
+            head.RotateX(-motion.Relative.Y / viewportSize.X * MouseSensitivity);
             head.Rotation = new Vector3(
                 Mathf.Clamp(head.Rotation.X, Mathf.DegToRad(-89), Mathf.DegToRad(89)),
                 head.Rotation.Y,
