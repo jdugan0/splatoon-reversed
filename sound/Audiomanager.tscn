@@ -2,6 +2,6 @@
 
 [ext_resource type="Script" uid="uid://bgxrlc5jnr4u" path="res://scripts/audiomanager/AudioManager.cs" id="1_ulbmk"]
 
-[node name="Audiomanager" type="Node"]
+[node name="Audiomanager" type="Node" unique_id=2079784028]
 script = ExtResource("1_ulbmk")
-sounds = Array[Object]([])
+sounds = Array[Object]([null])
