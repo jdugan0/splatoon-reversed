@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dxqr76ls3k26o"]
 
 [ext_resource type="PackedScene" uid="uid://cciitvuaglfjq" path="res://scenes/Player.tscn" id="1_n1ku5"]
+[ext_resource type="PackedScene" uid="uid://kyr45hgci1qe" path="res://scenes/Blob.tscn" id="2_jcyrx"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_dr5pi"]
 size = Vector3(20, 1, 20)
@@ -73,3 +74,6 @@ mesh = SubResource("BoxMesh_jcyrx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D4/StaticBody3D" unique_id=1953478094]
 shape = SubResource("ConcavePolygonShape3D_qxjbg")
+
+[node name="Blob" parent="." unique_id=855743990 instance=ExtResource("2_jcyrx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5827913, 3.997353, -7.7908535)
