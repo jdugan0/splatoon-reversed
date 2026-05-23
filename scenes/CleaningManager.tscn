@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ulhdc8n3pur3"]
+
+[ext_resource type="Script" uid="uid://xl6e03qbvt67" path="res://scripts/CleaningManager.cs" id="1_g2t6i"]
+
+[node name="CleaningManager" type="Node" unique_id=1306340215]
+script = ExtResource("1_g2t6i")
