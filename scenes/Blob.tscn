@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://kyr45hgci1qe"]
+
+[ext_resource type="Shader" uid="uid://dwlhmkqrakmty" path="res://scripts/Blob.gdshader" id="1_706a1"]
+[ext_resource type="Texture2D" uid="uid://c31aqr67vp834" path="res://art/sprites/dirt-1.Diffuse.png" id="2_gpcks"]
+[ext_resource type="Texture2D" uid="uid://cn8d7ugiebpsn" path="res://art/sprites/dirt-1.Normal2.png" id="3_26p4n"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gpcks"]
+render_priority = 0
+shader = ExtResource("1_706a1")
+shader_parameter/amplitude = 0.15
+shader_parameter/frequency = 4.0
+shader_parameter/speed = 0.8
+shader_parameter/tex_scale = 1.0
+shader_parameter/blend_sharpness = 4.0
+shader_parameter/dirt = ExtResource("2_gpcks")
+shader_parameter/normal_tex = ExtResource("3_26p4n")
+shader_parameter/normal_strength = 1.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_nn863"]
+material = SubResource("ShaderMaterial_gpcks")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_706a1"]
+
+[node name="Blob" type="MeshInstance3D" unique_id=855743990 groups=["dirt"]]
+mesh = SubResource("SphereMesh_nn863")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=534316424 groups=["dirt"]]
+collision_layer = 2
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1478597980 groups=["dirt"]]
+shape = SubResource("SphereShape3D_706a1")

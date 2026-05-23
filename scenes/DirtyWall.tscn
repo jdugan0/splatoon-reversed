@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://cfspjjmplybf"]
+
+[ext_resource type="Shader" uid="uid://cshodnmlnbrbm" path="res://scripts/DirtyWall.gdshader" id="1_wm61p"]
+[ext_resource type="Texture2D" uid="uid://c31aqr67vp834" path="res://art/sprites/dirt-1.Diffuse.png" id="2_4dtpq"]
+[ext_resource type="Script" uid="uid://1p5capb8kqfd" path="res://scripts/DirtyWall.cs" id="3_yxrnd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wm61p"]
+render_priority = 0
+shader = ExtResource("1_wm61p")
+shader_parameter/dirty_texture = ExtResource("2_4dtpq")
+shader_parameter/dirty_tiling = Vector2(1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_i0qwl"]
+material = SubResource("ShaderMaterial_wm61p")
+size = Vector2(10, 2)
+
+[sub_resource type="Gradient" id="Gradient_yxrnd"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_76hdp"]
+gradient = SubResource("Gradient_yxrnd")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yxrnd"]
+size = Vector3(10, 0.001, 2)
+
+[node name="DirtyWall" type="MeshInstance3D" unique_id=2134427755 node_paths=PackedStringArray("Mask", "Brush")]
+mesh = SubResource("PlaneMesh_i0qwl")
+script = ExtResource("3_yxrnd")
+Mask = NodePath("SubViewport")
+Brush = NodePath("SubViewport/Brush")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=517020842]
+render_target_clear_mode = 1
+render_target_update_mode = 0
+
+[node name="Brush" type="Sprite2D" parent="SubViewport" unique_id=1665764098]
+texture = SubResource("GradientTexture2D_76hdp")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=321394781]
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1718720954]
+shape = SubResource("BoxShape3D_yxrnd")
