@@ -75,6 +75,8 @@ public partial class Movement : CharacterBody3D
     private float _wallSlideSpeed = 0f;
     private Vector3 _wallSlideDir = Vector3.Zero;
     private bool _wasOnFloor = false;
+    private bool _wasMovingFast = false;
+    [Export] private float MovingFastThreshold = 10f;
     private bool dirty = false;
 
     [Export]
@@ -312,8 +314,21 @@ public partial class Movement : CharacterBody3D
             AudioManager.instance.PlaySFX("generic-woosh");
         }
 
+        if (Velocity.Length() > 10)
+        {
+            if (!_wasMovingFast)
+                AudioManager.instance.PlaySFX("move-wind-loop");
+            _wasMovingFast = true;
+        }
+        else
+        {
+            _wasMovingFast = false;
+            AudioManager.instance.CancelSFX("move-wind-loop");
+        }
+        
         Velocity = new Vector3(hVel.X, vVel, hVel.Z);
         _wasOnWall = IsOnWallOnly();
         MoveAndSlide();
+
     }
 }
