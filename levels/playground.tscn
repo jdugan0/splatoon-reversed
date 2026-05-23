@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cciitvuaglfjq" path="res://scenes/Player.tscn" id="1_n1ku5"]
 [ext_resource type="PackedScene" uid="uid://kyr45hgci1qe" path="res://scenes/Blob.tscn" id="2_jcyrx"]
 [ext_resource type="PackedScene" uid="uid://cfspjjmplybf" path="res://scenes/DirtyWall.tscn" id="3_qxjbg"]
-[ext_resource type="Shader" uid="uid://cshodnmlnbrbm" path="res://scripts/DirtyWall.gdshader" id="4_ek3o3"]
+[ext_resource type="Shader" path="res://scripts/DirtyWall.gdshader" id="4_ek3o3"]
 [ext_resource type="Texture2D" uid="uid://c31aqr67vp834" path="res://art/sprites/dirt-1.Diffuse.png" id="5_1y5p2"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_dr5pi"]
