@@ -48,6 +48,10 @@ public partial class Movement : CharacterBody3D
 
     [Export]
     private float DashRechargeTime;
+    [Export]
+    private float FootstepTime;
+    [Export]
+    private float FootStepAmt = 3.5f;
 
     [Export]
     private float WallJumpForce = 15f;
@@ -64,11 +68,15 @@ public partial class Movement : CharacterBody3D
     private int currentDashes = 3;
     private float dashCoolDownTimer;
     private float dashRechargeTimer;
+    private float footstepTimer;
     private float dashTimer;
     private Vector3 dashDir;
     private bool _wasOnWall = false;
     private float _wallSlideSpeed = 0f;
     private Vector3 _wallSlideDir = Vector3.Zero;
+    private bool _wasOnFloor = false;
+    private bool _wasMovingFast = false;
+    [Export] private float MovingFastThreshold = 10f;
     private bool dirty = false;
 
     [Export]
@@ -169,6 +177,19 @@ public partial class Movement : CharacterBody3D
                 dashRechargeTimer = 0f;
             }
         }
+        // FOOTSTEP SFX
+        if (velocity.Length() > 0 && IsOnFloor() && !wasDashing)
+        {
+            footstepTimer += dt;
+            if (footstepTimer >= FootStepAmt/velocity.Length())
+            {
+                if (dirty)
+                    AudioManager.instance.PlaySFX("step-concrete-heavy");
+                else 
+                    AudioManager.instance.PlaySFX("step-concrete-clean");
+                footstepTimer = 0f;
+            } 
+        }
 
         if (
             Input.IsActionJustPressed("dash")
@@ -186,6 +207,7 @@ public partial class Movement : CharacterBody3D
             dashDir = wishDir.LengthSquared() > 0.001f ? wishDir : forward;
             dashTimer = DashTime;
             currentDashes--;
+            AudioManager.instance.PlaySFX("generic-woosh");
         }
 
         if (dashTimer > 0)
@@ -199,6 +221,9 @@ public partial class Movement : CharacterBody3D
             bool stop = false;
             if (IsOnFloor())
             {
+                if (!_wasOnFloor)
+                    AudioManager.instance.PlaySFX("move-land");
+                _wasOnFloor = true;
                 if (wishDir.LengthSquared() == 0 || hVel.Length() > MaxSpeed)
                 {
                     Vector2 flatVelocity = new(hVel.X, hVel.Z);
@@ -229,6 +254,7 @@ public partial class Movement : CharacterBody3D
             }
             else
             {
+                _wasOnFloor = false;
                 vVel -= Gravity * dt;
 
                 Vector3 wishDirH = new Vector3(wishDir.X, 0, wishDir.Z);
@@ -258,6 +284,7 @@ public partial class Movement : CharacterBody3D
                 Vector3 slideDirH = camForwardH - wallNormal * dotWithNormal;
                 _wallSlideDir =
                     slideDirH.LengthSquared() > 0.001f ? slideDirH.Normalized() : Vector3.Zero;
+                AudioManager.instance.PlaySFX("move-wallslide-loop");
             }
 
             _wallSlideSpeed = Mathf.Max(0f, _wallSlideSpeed - WallFriction * dt);
@@ -273,6 +300,10 @@ public partial class Movement : CharacterBody3D
 
             vVel = 0f;
         }
+        else
+        {
+            AudioManager.instance.CancelSFX("move-wallslide-loop");
+        }
         if (Input.IsActionJustPressed("jump"))
             _jumpBufferTimer = JumpBufferTime;
         else
@@ -284,6 +315,7 @@ public partial class Movement : CharacterBody3D
             hVel += wishDir * JumpBoostForce;
             vVel = JumpForce;
             _jumpBufferTimer = 0f;
+            AudioManager.instance.PlaySFX("generic-woosh");
         }
         else if (_jumpBufferTimer > 0 && IsOnWallOnly())
         {
@@ -293,10 +325,24 @@ public partial class Movement : CharacterBody3D
             hVel.X = wallNormal.X * WallJumpForce;
             hVel.Z = wallNormal.Z * WallJumpForce;
             _jumpBufferTimer = 0f;
+            AudioManager.instance.PlaySFX("generic-woosh");
         }
 
+        if (Velocity.Length() > 10)
+        {
+            if (!_wasMovingFast)
+                AudioManager.instance.PlaySFX("move-wind-loop");
+            _wasMovingFast = true;
+        }
+        else
+        {
+            _wasMovingFast = false;
+            AudioManager.instance.CancelSFX("move-wind-loop");
+        }
+        
         Velocity = new Vector3(hVel.X, vVel, hVel.Z);
         _wasOnWall = IsOnWallOnly();
         MoveAndSlide();
+
     }
 }

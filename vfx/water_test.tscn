@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://dm48u6csa0oc4"]
+
+[sub_resource type="Curve" id="Curve_0tdoq"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.6411658, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_jweb1"]
+curve = SubResource("Curve_0tdoq")
+
+[sub_resource type="Gradient" id="Gradient_g7y71"]
+colors = PackedColorArray(0, 0, 1, 1, 0, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_cko05"]
+gradient = SubResource("Gradient_g7y71")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q7w7i"]
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 0.3
+angle_min = -720.0
+angle_max = 720.0
+direction = Vector3(0, 0, -1)
+spread = 1.0
+initial_velocity_min = 38.309998
+initial_velocity_max = 53.64
+color_ramp = SubResource("GradientTexture1D_cko05")
+alpha_curve = SubResource("CurveTexture_jweb1")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q7w7i"]
+transparency = 1
+vertex_color_use_as_albedo = true
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="BoxMesh" id="BoxMesh_q7w7i"]
+material = SubResource("StandardMaterial3D_q7w7i")
+size = Vector3(0.4, 0.4, 0.4)
+
+[node name="GPUParticles3D" type="GPUParticles3D" unique_id=1599418131]
+amount = 256
+process_material = SubResource("ParticleProcessMaterial_q7w7i")
+draw_pass_1 = SubResource("BoxMesh_q7w7i")
