@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://3fc886fjmgy8"]
+
+[ext_resource type="PackedScene" uid="uid://btekr5mi0m8i7" path="res://art/models/splashblaster.glb" id="1_itqgw"]
+
+[node name="splashblaster" unique_id=1481229736 instance=ExtResource("1_itqgw")]
+
+[node name="Splashblaster_Can" parent="." index="0" unique_id=1538003051]
+layers = 2
+
+[node name="Splashblaster_Primary" parent="." index="1" unique_id=94183239]
+layers = 2
