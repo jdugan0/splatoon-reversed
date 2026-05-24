@@ -25,6 +25,8 @@ public partial class DirtyWall : MeshInstance3D
     private double MeasureInterval = 0.2;
 
     private Image cachedMask;
+    [Export]
+    private CollisionShape3D collisionShape;
 
     public class SplatType
     {
@@ -41,6 +43,7 @@ public partial class DirtyWall : MeshInstance3D
         SplatType.WALK.Brush = WalkSplat;
         SplatType.JUMP.Brush = JumpSplat;
         planeSize = Mesh.Get("size").As<Vector2>();
+        collisionShape.Shape.Set("size", new Vector3(planeSize.X, 0, planeSize.Y));
         Mask.Size = new Vector2I(
             Mathf.CeilToInt(planeSize.X * MaskPixelsPerMeter),
             Mathf.CeilToInt(planeSize.Y * MaskPixelsPerMeter)

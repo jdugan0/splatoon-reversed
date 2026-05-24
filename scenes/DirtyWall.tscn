@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cfspjjmplybf"]
 
-[ext_resource type="Shader" uid="uid://cshodnmlnbrbm" path="res://scripts/DirtyWall.gdshader" id="1_wm61p"]
+[ext_resource type="Shader" path="res://scripts/DirtyWall.gdshader" id="1_wm61p"]
 [ext_resource type="Texture2D" uid="uid://c31aqr67vp834" path="res://art/sprites/dirt-1.Diffuse.png" id="2_4dtpq"]
 [ext_resource type="Script" uid="uid://1p5capb8kqfd" path="res://scripts/DirtyWall.cs" id="3_yxrnd"]
 
@@ -44,13 +44,14 @@ fill_to = Vector2(1, 0.5)
 [sub_resource type="BoxShape3D" id="BoxShape3D_yxrnd"]
 size = Vector3(10, 0.001, 2)
 
-[node name="DirtyWall" type="MeshInstance3D" unique_id=2134427755 node_paths=PackedStringArray("Mask", "Brush", "WalkSplat", "JumpSplat")]
+[node name="DirtyWall" type="MeshInstance3D" unique_id=2134427755 node_paths=PackedStringArray("Mask", "Brush", "WalkSplat", "JumpSplat", "collisionShape")]
 mesh = SubResource("PlaneMesh_i0qwl")
 script = ExtResource("3_yxrnd")
 Mask = NodePath("SubViewport")
 Brush = NodePath("SubViewport/Brush")
 WalkSplat = NodePath("SubViewport/WalkSplat")
 JumpSplat = NodePath("SubViewport/JumpSplat")
+collisionShape = NodePath("StaticBody3D/CollisionShape3D")
 
 [node name="SubViewport" type="SubViewport" parent="." unique_id=517020842]
 render_target_clear_mode = 1
