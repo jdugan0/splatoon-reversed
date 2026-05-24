@@ -139,7 +139,7 @@ public partial class Movement : CharacterBody3D
     public override void _PhysicsProcess(double delta)
     {
         CheckDirty();
-        GD.Print(dirty);
+        //GD.Print(dirty);
         float dt = (float)delta;
         Vector3 velocity = Velocity;
 
@@ -280,7 +280,7 @@ public partial class Movement : CharacterBody3D
 
             if (!_wasOnWall)
             {
-                _wallSlideSpeed = new Vector3(velocity.X, 0, velocity.Z).Length() * 1.5f;
+                _wallSlideSpeed = new Vector3(velocity.X, 0, velocity.Z).Length() * 1f;
                 Vector3 slideDirH = camForwardH - wallNormal * dotWithNormal;
                 _wallSlideDir =
                     slideDirH.LengthSquared() > 0.001f ? slideDirH.Normalized() : Vector3.Zero;

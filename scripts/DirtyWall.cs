@@ -70,7 +70,7 @@ public partial class DirtyWall : MeshInstance3D
         if (measureTimer < MeasureInterval)
             return;
         measureTimer = 0;
-        Measure();
+        //Measure();
     }
 
     private void Measure()
