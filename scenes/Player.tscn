@@ -9,6 +9,9 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_v6fml"]
 
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_v6fml"]
+size = Vector2(10, 10)
+
 [node name="Player" type="CharacterBody3D" unique_id=319218466 node_paths=PackedStringArray("head", "camera", "area")]
 script = ExtResource("1_p0vlq")
 MaxSpeed = 10.0
@@ -45,3 +48,29 @@ collision_mask = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=606190435]
 shape = SubResource("CapsuleShape3D_v6fml")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=183029132]
+
+[node name="Control" type="Control" parent="HUD" unique_id=2100449234]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="HUD/Control" unique_id=1523393965]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("PlaceholderTexture2D_v6fml")
