@@ -147,7 +147,7 @@ public partial class Movement : CharacterBody3D
     {
         viewModelCamera.GlobalTransform = camera.GlobalTransform;
         CheckDirty();
-        GD.Print(dirty);
+        // GD.Print(dirty);
         float dt = (float)delta;
         Vector3 velocity = Velocity;
 
