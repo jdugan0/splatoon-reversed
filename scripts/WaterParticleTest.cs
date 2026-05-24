@@ -21,9 +21,11 @@ public partial class WaterParticleTest : GpuParticles3D
 		}
 	}
 
-    public override void _PhysicsProcess(double delta)
-    {
-        particles.ProcessMaterial.Set("direction", new Vector3(0,1,0));
-    }
+    // public override void _PhysicsProcess(double delta)
+    // {
+	// 	var direction = -GlobalTransform.Basis.Z;
+	// 	GD.Print(direction);
+    //     particles.ProcessMaterial.Set("direction", direction);
+    // }
 
 }
