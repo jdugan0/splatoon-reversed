@@ -48,8 +48,10 @@ public partial class Movement : CharacterBody3D
 
     [Export]
     private float DashRechargeTime;
+
     [Export]
     private float FootstepTime;
+
     [Export]
     private float FootStepAmt = 3.5f;
 
@@ -65,6 +67,9 @@ public partial class Movement : CharacterBody3D
     [Export]
     private Camera3D camera;
 
+    [Export]
+    private Camera3D viewModelCamera;
+
     private int currentDashes = 3;
     private float dashCoolDownTimer;
     private float dashRechargeTimer;
@@ -76,7 +81,9 @@ public partial class Movement : CharacterBody3D
     private Vector3 _wallSlideDir = Vector3.Zero;
     private bool _wasOnFloor = false;
     private bool _wasMovingFast = false;
-    [Export] private float MovingFastThreshold = 10f;
+
+    [Export]
+    private float MovingFastThreshold = 10f;
     private bool dirty = false;
 
     [Export]
@@ -138,6 +145,7 @@ public partial class Movement : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
     {
+        viewModelCamera.GlobalTransform = camera.GlobalTransform;
         CheckDirty();
         //GD.Print(dirty);
         float dt = (float)delta;
@@ -181,14 +189,14 @@ public partial class Movement : CharacterBody3D
         if (velocity.Length() > 0 && IsOnFloor() && !wasDashing)
         {
             footstepTimer += dt;
-            if (footstepTimer >= FootStepAmt/velocity.Length())
+            if (footstepTimer >= FootStepAmt / velocity.Length())
             {
                 if (dirty)
                     AudioManager.instance.PlaySFX("step-concrete-heavy");
-                else 
+                else
                     AudioManager.instance.PlaySFX("step-concrete-clean");
                 footstepTimer = 0f;
-            } 
+            }
         }
 
         if (
@@ -199,12 +207,8 @@ public partial class Movement : CharacterBody3D
             && !IsOnWallOnly()
         )
         {
-            Vector3 forward = new Vector3(
-                -GlobalTransform.Basis.Z.X,
-                0,
-                -GlobalTransform.Basis.Z.Z
-            ).Normalized();
-            dashDir = wishDir.LengthSquared() > 0.001f ? wishDir : forward;
+            Vector3 forward = (-camera.GlobalTransform.Basis.Z).Normalized();
+            dashDir = forward;
             dashTimer = DashTime;
             currentDashes--;
             AudioManager.instance.PlaySFX("generic-woosh");
@@ -212,9 +216,9 @@ public partial class Movement : CharacterBody3D
 
         if (dashTimer > 0)
         {
-            hVel = dashDir * DashSpeed;
-            if (!IsOnFloor())
-                vVel -= Gravity * dt;
+            Vector3 dashVel = dashDir * DashSpeed;
+            hVel = new Vector3(dashVel.X, 0, dashVel.Z);
+            vVel = dashVel.Y;
         }
         else
         {
@@ -280,7 +284,7 @@ public partial class Movement : CharacterBody3D
 
             if (!_wasOnWall)
             {
-                _wallSlideSpeed = new Vector3(velocity.X, 0, velocity.Z).Length() * 1f;
+                _wallSlideSpeed = new Vector3(velocity.X, 0, velocity.Z).Length();
                 Vector3 slideDirH = camForwardH - wallNormal * dotWithNormal;
                 _wallSlideDir =
                     slideDirH.LengthSquared() > 0.001f ? slideDirH.Normalized() : Vector3.Zero;
@@ -316,6 +320,7 @@ public partial class Movement : CharacterBody3D
             vVel = JumpForce;
             _jumpBufferTimer = 0f;
             AudioManager.instance.PlaySFX("generic-woosh");
+            dashTimer = 0;
         }
         else if (_jumpBufferTimer > 0 && IsOnWallOnly())
         {
@@ -326,6 +331,7 @@ public partial class Movement : CharacterBody3D
             hVel.Z = wallNormal.Z * WallJumpForce;
             _jumpBufferTimer = 0f;
             AudioManager.instance.PlaySFX("generic-woosh");
+            dashTimer = 0;
         }
 
         if (Velocity.Length() > 10)
@@ -339,10 +345,9 @@ public partial class Movement : CharacterBody3D
             _wasMovingFast = false;
             AudioManager.instance.CancelSFX("move-wind-loop");
         }
-        
+
         Velocity = new Vector3(hVel.X, vVel, hVel.Z);
         _wasOnWall = IsOnWallOnly();
         MoveAndSlide();
-
     }
 }
