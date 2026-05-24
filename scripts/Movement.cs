@@ -143,9 +143,13 @@ public partial class Movement : CharacterBody3D
         }
     }
 
-    public override void _PhysicsProcess(double delta)
+    public override void _Process(double delta)
     {
         viewModelCamera.GlobalTransform = camera.GlobalTransform;
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
         CheckDirty();
         // GD.Print(dirty);
         float dt = (float)delta;
