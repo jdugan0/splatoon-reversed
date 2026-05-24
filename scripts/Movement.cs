@@ -207,12 +207,8 @@ public partial class Movement : CharacterBody3D
             && !IsOnWallOnly()
         )
         {
-            Vector3 forward = new Vector3(
-                -GlobalTransform.Basis.Z.X,
-                0,
-                -GlobalTransform.Basis.Z.Z
-            ).Normalized();
-            dashDir = wishDir.LengthSquared() > 0.001f ? wishDir : forward;
+            Vector3 forward = (-camera.GlobalTransform.Basis.Z).Normalized();
+            dashDir = forward;
             dashTimer = DashTime;
             currentDashes--;
             AudioManager.instance.PlaySFX("generic-woosh");
@@ -220,9 +216,9 @@ public partial class Movement : CharacterBody3D
 
         if (dashTimer > 0)
         {
-            hVel = dashDir * DashSpeed;
-            if (!IsOnFloor())
-                vVel -= Gravity * dt;
+            Vector3 dashVel = dashDir * DashSpeed;
+            hVel = new Vector3(dashVel.X, 0, dashVel.Z);
+            vVel = dashVel.Y;
         }
         else
         {
@@ -288,7 +284,7 @@ public partial class Movement : CharacterBody3D
 
             if (!_wasOnWall)
             {
-                _wallSlideSpeed = new Vector3(velocity.X, 0, velocity.Z).Length() * 1.5f;
+                _wallSlideSpeed = new Vector3(velocity.X, 0, velocity.Z).Length();
                 Vector3 slideDirH = camForwardH - wallNormal * dotWithNormal;
                 _wallSlideDir =
                     slideDirH.LengthSquared() > 0.001f ? slideDirH.Normalized() : Vector3.Zero;

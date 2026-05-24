@@ -28,17 +28,17 @@ public partial class Brush : Node3D
 
         //SFX
         if (Input.IsActionJustPressed("fire"))
-		{
-			AudioManager.instance.PlaySFX("gun-spray-start");
-			AudioManager.instance.PlaySFX("gun-spray-loop");
-			AudioManager.instance.CancelSFX("gun-spray-end");
-		}
+        {
+            AudioManager.instance.PlaySFX("gun-spray-start");
+            AudioManager.instance.PlaySFX("gun-spray-loop");
+            AudioManager.instance.CancelSFX("gun-spray-end");
+        }
         if (Input.IsActionJustReleased("fire"))
-		{
-			AudioManager.instance.PlaySFX("gun-spray-end");
-			AudioManager.instance.CancelSFX("gun-spray-start");
-			AudioManager.instance.CancelSFX("gun-spray-loop");
-		}
+        {
+            AudioManager.instance.PlaySFX("gun-spray-end");
+            AudioManager.instance.CancelSFX("gun-spray-start");
+            AudioManager.instance.CancelSFX("gun-spray-loop");
+        }
         //END OF SFX
     }
 }

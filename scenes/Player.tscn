@@ -20,7 +20,7 @@ AirAccel = 20.0
 WallFriction = 5.0
 JumpForce = 10.0
 head = NodePath("Head")
-DashSpeed = 25.0
+DashSpeed = 20.0
 DashTime = 0.2
 DashRechargeTime = 2.0
 WallJumpForce = 10.0
@@ -98,3 +98,6 @@ cull_mask = 1047554
 
 [node name="splashblaster2" parent="HUD/Control/SubViewportContainer/SubViewport/Camera3D" unique_id=739925872 instance=ExtResource("3_3li8b")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.345, -0.33, -0.155)
+
+[node name="Muzzle" type="Node3D" parent="HUD/Control/SubViewportContainer/SubViewport/Camera3D/splashblaster2" unique_id=1454091994]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9020331, 0.08914359, 8.940697e-08)
