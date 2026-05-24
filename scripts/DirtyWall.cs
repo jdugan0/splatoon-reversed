@@ -11,6 +11,12 @@ public partial class DirtyWall : MeshInstance3D
 
     [Export]
     private Sprite2D Brush;
+
+    [Export]
+    private Sprite2D WalkSplat;
+
+    [Export]
+    private Sprite2D JumpSplat;
     private Vector2 planeSize;
 
     private double measureTimer;
@@ -20,8 +26,20 @@ public partial class DirtyWall : MeshInstance3D
 
     private Image cachedMask;
 
+    public class SplatType
+    {
+        public static readonly SplatType BRUSH = new();
+        public static readonly SplatType WALK = new();
+        public static readonly SplatType JUMP = new();
+
+        public Sprite2D Brush { get; set; }
+    }
+
     public override void _Ready()
     {
+        SplatType.BRUSH.Brush = Brush;
+        SplatType.WALK.Brush = WalkSplat;
+        SplatType.JUMP.Brush = JumpSplat;
         planeSize = Mesh.Get("size").As<Vector2>();
         Mask.Size = new Vector2I(
             Mathf.CeilToInt(planeSize.X * MaskPixelsPerMeter),
@@ -34,11 +52,12 @@ public partial class DirtyWall : MeshInstance3D
         CleaningManager.I.Register(this, planeSize.X * planeSize.Y);
     }
 
-    public void Paint(Vector3 worldHit)
+    public void Paint(Vector3 worldHit, SplatType splatType)
     {
+        Sprite2D brush = splatType.Brush;
         var local = GlobalTransform.AffineInverse() * worldHit;
         var uv = new Vector2(local.X / planeSize.X + 0.5f, local.Z / planeSize.Y + 0.5f);
-        Brush.Position = uv * (Vector2)Mask.Size;
+        brush.Position = uv * (Vector2)Mask.Size;
         Mask.RenderTargetUpdateMode = SubViewport.UpdateMode.Once;
     }
 

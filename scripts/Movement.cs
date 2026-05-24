@@ -105,6 +105,7 @@ public partial class Movement : CharacterBody3D
                 {
                     // GD.Print(dirty);
                     // GD.Print("DEBUG");
+                    wall.Paint(GlobalPosition, DirtyWall.SplatType.WALK);
                     dirty = true;
                 }
             }
@@ -114,6 +115,17 @@ public partial class Movement : CharacterBody3D
     public bool GetDirty()
     {
         return dirty;
+    }
+
+    public void PaintJumpSplat()
+    {
+        foreach (var body in area.GetOverlappingBodies())
+        {
+            if (body.GetParent() is DirtyWall wall)
+            {
+                wall.Paint(GlobalPosition, DirtyWall.SplatType.JUMP);
+            }
+        }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -268,6 +280,7 @@ public partial class Movement : CharacterBody3D
 
         if (_jumpBufferTimer > 0 && IsOnFloor())
         {
+            PaintJumpSplat();
             hVel += wishDir * JumpBoostForce;
             vVel = JumpForce;
             _jumpBufferTimer = 0f;
@@ -275,6 +288,7 @@ public partial class Movement : CharacterBody3D
         else if (_jumpBufferTimer > 0 && IsOnWallOnly())
         {
             Vector3 wallNormal = GetWallNormal();
+            PaintJumpSplat();
             vVel = JumpForce;
             hVel.X = wallNormal.X * WallJumpForce;
             hVel.Z = wallNormal.Z * WallJumpForce;

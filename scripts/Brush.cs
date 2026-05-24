@@ -21,7 +21,7 @@ public partial class Brush : Node3D
                 var collider = result["collider"].As<Node>().GetParent();
                 if (collider != null && collider is DirtyWall c)
                 {
-                    c.Paint(result["position"].AsVector3());
+                    c.Paint(result["position"].AsVector3(), DirtyWall.SplatType.BRUSH);
                 }
             }
         }
