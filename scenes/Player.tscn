@@ -3,15 +3,13 @@
 [ext_resource type="Script" uid="uid://mifmlgcjc5d2" path="res://scripts/Movement.cs" id="1_p0vlq"]
 [ext_resource type="Script" uid="uid://igavyxtu1i4y" path="res://scripts/Brush.cs" id="2_v6fml"]
 [ext_resource type="PackedScene" uid="uid://cop3n3rgmumhe" path="res://art/models/SplashBlaster2Modified.tscn" id="3_3li8b"]
+[ext_resource type="Texture2D" uid="uid://be67dv38u48ce" path="res://art/sprites/Reticle1.svg" id="3_mdl7e"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_5q5h1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5q5h1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_v6fml"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_v6fml"]
-size = Vector2(10, 10)
 
 [node name="Player" type="CharacterBody3D" unique_id=319218466 node_paths=PackedStringArray("head", "camera", "viewModelCamera", "area")]
 script = ExtResource("1_p0vlq")
@@ -76,7 +74,7 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("PlaceholderTexture2D_v6fml")
+texture = ExtResource("3_mdl7e")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="HUD/Control" unique_id=525048265]
 layout_mode = 1

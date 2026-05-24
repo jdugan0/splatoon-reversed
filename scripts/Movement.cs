@@ -320,6 +320,7 @@ public partial class Movement : CharacterBody3D
             vVel = JumpForce;
             _jumpBufferTimer = 0f;
             AudioManager.instance.PlaySFX("generic-woosh");
+            dashTimer = 0;
         }
         else if (_jumpBufferTimer > 0 && IsOnWallOnly())
         {
@@ -330,6 +331,7 @@ public partial class Movement : CharacterBody3D
             hVel.Z = wallNormal.Z * WallJumpForce;
             _jumpBufferTimer = 0f;
             AudioManager.instance.PlaySFX("generic-woosh");
+            dashTimer = 0;
         }
 
         if (Velocity.Length() > 10)
