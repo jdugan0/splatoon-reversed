@@ -32,20 +32,15 @@ public partial class DirtyWall : MeshInstance3D
     [Export]
     private MeshInstance3D parentBox;
 
-    public class SplatType
+    public enum SplatType
     {
-        public static readonly SplatType BRUSH = new();
-        public static readonly SplatType WALK = new();
-        public static readonly SplatType JUMP = new();
-
-        public Sprite2D Brush { get; set; }
+        BRUSH,
+        WALK,
+        JUMP,
     }
 
     public override void _Ready()
     {
-        SplatType.BRUSH.Brush = Brush;
-        SplatType.WALK.Brush = WalkSplat;
-        SplatType.JUMP.Brush = JumpSplat;
         Mesh = (Mesh)Mesh.Duplicate();
         if (parentBox != null)
         {
@@ -68,7 +63,15 @@ public partial class DirtyWall : MeshInstance3D
 
     public void Paint(Vector3 worldHit, SplatType splatType)
     {
-        Sprite2D brush = splatType.Brush;
+        Sprite2D brush = splatType switch
+        {
+            SplatType.WALK => WalkSplat,
+            SplatType.JUMP => JumpSplat,
+            _ => Brush,
+        };
+        Brush.Visible = brush == Brush;
+        WalkSplat.Visible = brush == WalkSplat;
+        JumpSplat.Visible = brush == JumpSplat;
         var local = GlobalTransform.AffineInverse() * worldHit;
         var uv = new Vector2(local.X / planeSize.X + 0.5f, local.Z / planeSize.Y + 0.5f);
         brush.Position = uv * (Vector2)Mask.Size;
