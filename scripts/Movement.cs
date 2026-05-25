@@ -89,6 +89,8 @@ public partial class Movement : CharacterBody3D
     [Export]
     private Area3D area;
 
+    private bool dashing = false;
+
     public override void _Ready()
     {
         Input.MouseMode = Input.MouseModeEnum.Captured;
@@ -116,11 +118,11 @@ public partial class Movement : CharacterBody3D
         {
             if (body.GetParent() is DirtyWall wall)
             {
+                wall.Paint(GlobalPosition, DirtyWall.SplatType.WALK);
                 if (wall.SampleDirtAt(GlobalPosition) is float d && d > 0.5f)
                 {
                     // GD.Print(dirty);
                     // GD.Print("DEBUG");
-                    wall.Paint(GlobalPosition, DirtyWall.SplatType.WALK);
                     dirty = true;
                 }
             }
@@ -230,10 +232,16 @@ public partial class Movement : CharacterBody3D
             Vector3 dashVel = dashDir * DashSpeed;
             hVel = new Vector3(dashVel.X, 0, dashVel.Z);
             vVel = dashVel.Y;
+            dashing = true;
         }
         else
         {
             bool stop = false;
+            if (dashing)
+            {
+                dashing = false;
+                vVel = 0;
+            }
             if (IsOnFloor())
             {
                 if (!_wasOnFloor)
