@@ -39,9 +39,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51, 0)
 [node name="Camera3D" type="Camera3D" parent="Head" unique_id=369125283]
 cull_mask = 1048573
 
-[node name="FirePoint" type="Node3D" parent="Head/Camera3D" unique_id=767676035 node_paths=PackedStringArray("muzzle")]
+[node name="FirePoint" type="Node3D" parent="Head/Camera3D" unique_id=767676035 node_paths=PackedStringArray("player", "muzzle")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.71)
 script = ExtResource("2_v6fml")
+player = NodePath("../../..")
 muzzle = NodePath("../../../HUD/Control/SubViewportContainer/SubViewport/Camera3D/splashblaster2/Muzzle")
 
 [node name="Area3D" type="Area3D" parent="." unique_id=724033306]

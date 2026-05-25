@@ -5,6 +5,12 @@ public partial class Brush : Node3D
     private MeshInstance3D currBeam = null;
 
     [Export]
+    private Movement player;
+
+    [Export]
+    private float recoilForce = 10f;
+
+    [Export]
     private Node3D muzzle;
 
     public override void _Ready() { }
@@ -24,6 +30,7 @@ public partial class Brush : Node3D
             if (result.Count > 0)
             {
                 var hitPos = result["position"].As<Vector3>();
+                // player.AddForce(-(recoilForce * (hitPos - player.GlobalPosition).Normalized()));
                 if (muzzle.GlobalPosition.DistanceTo(hitPos) > 0.75f)
                 {
                     currBeam = MakeCylinder(currBeam, muzzle.GlobalPosition, hitPos, 0.1f);
