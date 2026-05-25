@@ -92,5 +92,9 @@ shape = SubResource("ConcavePolygonShape3D_qxjbg")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5827913, 3.997353, -7.7908535)
 
 [node name="DirtyWall" parent="." unique_id=2134427755 instance=ExtResource("3_qxjbg")]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -5.727948, 1.8699546, -9.470813)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -3.4155245, 1.8699546, -9.470813)
+mesh = SubResource("PlaneMesh_i7xqd")
+
+[node name="DirtyWall2" parent="." unique_id=1406525944 instance=ExtResource("3_qxjbg")]
+transform = Transform3D(-0.30087224, 0.9536645, -4.1685997e-08, 0, -4.371139e-08, -1, -0.9536645, -0.30087224, 1.3151543e-08, -3.4155245, 1.8699546, 1.6252222)
 mesh = SubResource("PlaneMesh_i7xqd")

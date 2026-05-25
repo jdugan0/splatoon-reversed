@@ -158,7 +158,7 @@ public partial class Movement : CharacterBody3D
     public override void _PhysicsProcess(double delta)
     {
         CheckDirty();
-        // GD.Print(dirty);
+        //GD.Print(dirty);
         float dt = (float)delta;
         Vector3 velocity = Velocity;
 
