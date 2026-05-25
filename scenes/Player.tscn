@@ -44,6 +44,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.71)
 script = ExtResource("2_v6fml")
 player = NodePath("../../..")
 muzzle = NodePath("../../../HUD/Control/SubViewportContainer/SubViewport/Camera3D/splashblaster2/Muzzle")
+GunRange = 100.0
 
 [node name="Area3D" type="Area3D" parent="." unique_id=724033306]
 collision_layer = 0

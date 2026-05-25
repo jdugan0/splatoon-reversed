@@ -13,6 +13,9 @@ public partial class Brush : Node3D
     [Export]
     private Node3D muzzle;
 
+    [Export]
+    private float GunRange;
+
     public override void _Ready() { }
 
     public override void _Process(double delta)
@@ -24,7 +27,7 @@ public partial class Brush : Node3D
             var origin = GlobalTransform.Origin;
             var direction = -GlobalTransform.Basis.Z;
 
-            var query = PhysicsRayQueryParameters3D.Create(origin, origin + direction * 1000f);
+            var query = PhysicsRayQueryParameters3D.Create(origin, origin + direction * GunRange);
             var result = spaceState.IntersectRay(query);
 
             if (result.Count > 0)
