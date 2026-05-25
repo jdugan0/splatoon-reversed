@@ -434,5 +434,5 @@ shape = SubResource("CylinderShape3D_l42jr")
 
 [node name="dirt" type="Node3D" parent="." unique_id=1551152302]
 
-[node name="DirtyWall" parent="dirt" unique_id=2134427755 instance=ExtResource("5_fnp6f")]
-transform = Transform3D(1, 0, 0, 0, -0.0432532, -0.99906415, 0, 0.99906415, -0.0432532, 13.9999695, 10.444662, 0)
+[node name="DirtyWall" parent="." unique_id=2134427755 instance=ExtResource("5_fnp6f")]
+transform = Transform3D(1, 0, 0, 0, 0.1753324, 0.9845093, 0, -0.9845093, 0.1753324, 4.4677534, 10.228182, 15.071297)

@@ -10,13 +10,16 @@ public partial class DirtyWall : MeshInstance3D
     private SubViewport Mask;
 
     [Export]
-    private Sprite2D Brush;
+    private Sprite2D Splat;
 
     [Export]
-    private Sprite2D WalkSplat;
+    private Texture2D BrushTexture;
 
     [Export]
-    private Sprite2D JumpSplat;
+    private Texture2D WalkTexture;
+
+    [Export]
+    private Texture2D JumpTexture;
     private Vector2 planeSize;
 
     private double measureTimer;
@@ -58,23 +61,23 @@ public partial class DirtyWall : MeshInstance3D
         SetSurfaceOverrideMaterial(0, mat);
         mat.SetShaderParameter("dirty_tiling", planeSize);
         mat.SetShaderParameter("dirt_mask", Mask.GetTexture());
+        Mask.RenderTargetClearMode = SubViewport.ClearMode.Once;
+        Mask.RenderTargetUpdateMode = SubViewport.UpdateMode.Once;
         CleaningManager.I.Register(this, planeSize.X * planeSize.Y);
     }
 
     public void Paint(Vector3 worldHit, SplatType splatType)
     {
-        Sprite2D brush = splatType switch
+        Splat.Texture = splatType switch
         {
-            SplatType.WALK => WalkSplat,
-            SplatType.JUMP => JumpSplat,
-            _ => Brush,
+            SplatType.WALK => WalkTexture,
+            SplatType.JUMP => JumpTexture,
+            _ => BrushTexture,
         };
-        Brush.Visible = brush == Brush;
-        WalkSplat.Visible = brush == WalkSplat;
-        JumpSplat.Visible = brush == JumpSplat;
+        Splat.Visible = true;
         var local = GlobalTransform.AffineInverse() * worldHit;
         var uv = new Vector2(local.X / planeSize.X + 0.5f, local.Z / planeSize.Y + 0.5f);
-        brush.Position = uv * (Vector2)Mask.Size;
+        Splat.Position = uv * (Vector2)Mask.Size;
         Mask.RenderTargetUpdateMode = SubViewport.UpdateMode.Once;
     }
 

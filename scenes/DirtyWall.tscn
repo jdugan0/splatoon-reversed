@@ -44,27 +44,23 @@ fill_to = Vector2(1, 0.5)
 [sub_resource type="BoxShape3D" id="BoxShape3D_yxrnd"]
 size = Vector3(10, 0.001, 2)
 
-[node name="DirtyWall" type="MeshInstance3D" unique_id=2134427755 node_paths=PackedStringArray("Mask", "Brush", "WalkSplat", "JumpSplat", "collisionShape")]
+[node name="DirtyWall" type="MeshInstance3D" unique_id=2134427755 node_paths=PackedStringArray("Mask", "Splat", "collisionShape")]
 mesh = SubResource("PlaneMesh_i0qwl")
 script = ExtResource("3_yxrnd")
 Mask = NodePath("SubViewport")
-Brush = NodePath("SubViewport/Brush")
-WalkSplat = NodePath("SubViewport/WalkSplat")
-JumpSplat = NodePath("SubViewport/JumpSplat")
+Splat = NodePath("SubViewport/Splat")
+BrushTexture = SubResource("GradientTexture2D_j824a")
+WalkTexture = SubResource("GradientTexture2D_yxrnd")
+JumpTexture = SubResource("GradientTexture2D_76hdp")
 collisionShape = NodePath("StaticBody3D/CollisionShape3D")
 
 [node name="SubViewport" type="SubViewport" parent="." unique_id=517020842]
+transparent_bg = true
 render_target_clear_mode = 1
 render_target_update_mode = 0
 
-[node name="Brush" type="Sprite2D" parent="SubViewport" unique_id=1665764098]
-texture = SubResource("GradientTexture2D_j824a")
-
-[node name="WalkSplat" type="Sprite2D" parent="SubViewport" unique_id=533337441]
-texture = SubResource("GradientTexture2D_yxrnd")
-
-[node name="JumpSplat" type="Sprite2D" parent="SubViewport" unique_id=840030672]
-texture = SubResource("GradientTexture2D_76hdp")
+[node name="Splat" type="Sprite2D" parent="SubViewport" unique_id=1665764098]
+visible = false
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=321394781]
 collision_layer = 4
