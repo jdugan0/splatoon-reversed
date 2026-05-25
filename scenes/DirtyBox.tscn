@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://dgh2jgwmryiiq"]
+
+[ext_resource type="PackedScene" uid="uid://cfspjjmplybf" path="res://scenes/DirtyWall.tscn" id="1_6hiwe"]
+[ext_resource type="Shader" path="res://scripts/DirtyWall.gdshader" id="2_ceclo"]
+[ext_resource type="Texture2D" uid="uid://c31aqr67vp834" path="res://art/sprites/dirt-1.Diffuse.png" id="3_sp5jg"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ceclo"]
+size = Vector3(1, 0.01, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wm61p"]
+render_priority = 0
+shader = ExtResource("2_ceclo")
+shader_parameter/dirty_texture = ExtResource("3_sp5jg")
+shader_parameter/dirty_tiling = Vector2(1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_n8g55"]
+material = SubResource("ShaderMaterial_wm61p")
+size = Vector2(1, 1)
+
+[node name="DirtyBox" type="MeshInstance3D" unique_id=1520363233]
+mesh = SubResource("BoxMesh_ceclo")
+
+[node name="DirtyWall" parent="." unique_id=2134427755 node_paths=PackedStringArray("parentBox") instance=ExtResource("1_6hiwe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015287399, 0)
+mesh = SubResource("PlaneMesh_n8g55")
+parentBox = NodePath("..")

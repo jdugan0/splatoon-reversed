@@ -2,9 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cciitvuaglfjq" path="res://scenes/Player.tscn" id="1_fnp6f"]
 [ext_resource type="PackedScene" uid="uid://kyr45hgci1qe" path="res://scenes/Blob.tscn" id="2_l42jr"]
-[ext_resource type="PackedScene" uid="uid://cfspjjmplybf" path="res://scenes/DirtyWall.tscn" id="3_p5ml6"]
-[ext_resource type="Shader" path="res://scripts/DirtyWall.gdshader" id="4_g1y1w"]
-[ext_resource type="Texture2D" uid="uid://c31aqr67vp834" path="res://art/sprites/dirt-1.Diffuse.png" id="5_sjg8e"]
+[ext_resource type="PackedScene" uid="uid://dgh2jgwmryiiq" path="res://scenes/DirtyBox.tscn" id="4_jip00"]
 [ext_resource type="Texture2D" uid="uid://delavd41vib1v" path="res://art/sprites/temp-brick.png" id="6_l42jr"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_n1ku5"]
@@ -60,15 +58,8 @@ albedo_texture = ExtResource("6_l42jr")
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_l42jr"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wm61p"]
-render_priority = 0
-shader = ExtResource("4_g1y1w")
-shader_parameter/dirty_texture = ExtResource("5_sjg8e")
-shader_parameter/dirty_tiling = Vector2(1, 1)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_l42jr"]
-material = SubResource("ShaderMaterial_wm61p")
-size = Vector2(20, 20)
+[sub_resource type="BoxMesh" id="BoxMesh_fnp6f"]
+size = Vector3(20, 0, 20)
 
 [node name="Node3D" type="Node3D" unique_id=1763722837]
 
@@ -444,6 +435,12 @@ mesh = SubResource("CylinderMesh_fnp6f")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="world/MeshInstance3D10/StaticBody3D" unique_id=1585256804]
 shape = SubResource("CylinderShape3D_l42jr")
 
-[node name="DirtyWall" parent="." unique_id=2134427755 instance=ExtResource("3_p5ml6")]
-transform = Transform3D(1, 0, 0, 0, -0.010297254, -0.99994695, 0, 0.99994695, -0.010297254, 0.25834513, 15.588707, -9.337607)
-mesh = SubResource("PlaneMesh_l42jr")
+[node name="dirt" type="Node3D" parent="." unique_id=1551152302]
+
+[node name="DirtyBox3" parent="dirt" unique_id=1520363233 instance=ExtResource("4_jip00")]
+transform = Transform3D(-0.017337628, -0.25646055, -0.9663992, -0.9854613, 0.16776627, -0.026841793, 0.16901305, 0.9518836, -0.25564063, 17.314056, 13.212582, -24.669659)
+mesh = SubResource("BoxMesh_fnp6f")
+skeleton = NodePath("../../world")
+
+[node name="DirtyBox" parent="dirt" unique_id=931862175 instance=ExtResource("4_jip00")]
+transform = Transform3D(1, 0, 0, 0, 0.355629, -0.93462723, 0, 0.93462723, 0.355629, 27.82257, 8.653992, -0.6092377)

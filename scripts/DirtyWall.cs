@@ -27,6 +27,8 @@ public partial class DirtyWall : MeshInstance3D
     private Image cachedMask;
     [Export]
     private CollisionShape3D collisionShape;
+    [Export]
+    private MeshInstance3D parentBox;
 
     public class SplatType
     {
@@ -42,6 +44,9 @@ public partial class DirtyWall : MeshInstance3D
         SplatType.BRUSH.Brush = Brush;
         SplatType.WALK.Brush = WalkSplat;
         SplatType.JUMP.Brush = JumpSplat;
+        Vector3 a = parentBox.GetAabb().Size;
+        GD.Print(a);
+        Mesh.Set("size", new Vector3(a.X,a.Z,0.01f));
         planeSize = Mesh.Get("size").As<Vector2>();
         collisionShape.Shape.Set("size", new Vector3(planeSize.X, 0, planeSize.Y));
         Mask.Size = new Vector2I(
