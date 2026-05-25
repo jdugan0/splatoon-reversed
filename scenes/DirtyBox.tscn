@@ -1,20 +1,42 @@
 [gd_scene format=3 uid="uid://dgh2jgwmryiiq"]
 
 [ext_resource type="PackedScene" uid="uid://cfspjjmplybf" path="res://scenes/DirtyWall.tscn" id="1_6hiwe"]
-[ext_resource type="Shader" path="res://scripts/DirtyWall.gdshader" id="2_ceclo"]
-[ext_resource type="Texture2D" uid="uid://c31aqr67vp834" path="res://art/sprites/dirt-1.Diffuse.png" id="3_sp5jg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ceclo"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ceclo"]
+material = SubResource("StandardMaterial3D_ceclo")
 size = Vector3(1, 0.01, 1)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wm61p"]
+[sub_resource type="Shader" id="Shader_6hiwe"]
+code = "shader_type spatial;
+uniform sampler2D clean_texture : source_color, filter_nearest, hint_default_transparent;
+uniform sampler2D dirty_texture : source_color, repeat_enable, filter_nearest;
+uniform sampler2D dirt_mask : hint_default_black, repeat_disable, filter_nearest;
+uniform vec2 dirty_tiling = vec2(1.0);
+render_mode depth_prepass_alpha;
+
+void fragment() {
+    vec4  c = texture(clean_texture, UV).rgba;
+    vec4 d = texture(dirty_texture, UV * dirty_tiling).rgba;
+    float m = texture(dirt_mask, UV).r;
+    ALBEDO = mix(d.rgb, c.rgb, m);
+	ALPHA  = mix(d.a, c.a,m);
+}"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_l4l2p"]
+load_path = "res://.godot/imported/dirt-1.Diffuse.png-183051c319f7f3dfa49d2668bb78df17.s3tc.ctex"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ceclo"]
 render_priority = 0
-shader = ExtResource("2_ceclo")
-shader_parameter/dirty_texture = ExtResource("3_sp5jg")
+shader = SubResource("Shader_6hiwe")
+shader_parameter/dirty_texture = SubResource("CompressedTexture2D_l4l2p")
 shader_parameter/dirty_tiling = Vector2(1, 1)
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_n8g55"]
-material = SubResource("ShaderMaterial_wm61p")
+[sub_resource type="PlaneMesh" id="PlaneMesh_sp5jg"]
+material = SubResource("ShaderMaterial_ceclo")
 size = Vector2(1, 1)
 
 [node name="DirtyBox" type="MeshInstance3D" unique_id=1520363233]
@@ -22,5 +44,5 @@ mesh = SubResource("BoxMesh_ceclo")
 
 [node name="DirtyWall" parent="." unique_id=2134427755 node_paths=PackedStringArray("parentBox") instance=ExtResource("1_6hiwe")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015287399, 0)
-mesh = SubResource("PlaneMesh_n8g55")
+mesh = SubResource("PlaneMesh_sp5jg")
 parentBox = NodePath("..")
