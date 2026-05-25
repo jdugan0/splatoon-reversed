@@ -143,9 +143,20 @@ public partial class Movement : CharacterBody3D
         }
     }
 
-    public override void _PhysicsProcess(double delta)
+    public override void _Process(double delta)
     {
         viewModelCamera.GlobalTransform = camera.GlobalTransform;
+    }
+
+    private Vector3 nextFrameForce = Vector3.Zero;
+
+    public void AddForce(Vector3 force)
+    {
+        nextFrameForce += force;
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
         CheckDirty();
         // GD.Print(dirty);
         float dt = (float)delta;
@@ -345,7 +356,14 @@ public partial class Movement : CharacterBody3D
             _wasMovingFast = false;
             AudioManager.instance.CancelSFX("move-wind-loop");
         }
+        hVel.X += nextFrameForce.X * dt;
+        if (nextFrameForce.Y * dt > 0.1)
+        {
+            vVel += nextFrameForce.Y * dt;
+        }
 
+        hVel.Z += nextFrameForce.Z * dt;
+        nextFrameForce = Vector3.Zero;
         Velocity = new Vector3(hVel.X, vVel, hVel.Z);
         _wasOnWall = IsOnWallOnly();
         MoveAndSlide();
