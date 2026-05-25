@@ -16,6 +16,9 @@ public partial class Brush : Node3D
     [Export]
     private float GunRange;
 
+    [Export]
+    private Material beamMat;
+
     public override void _Ready() { }
 
     public override void _Process(double delta)
@@ -88,6 +91,10 @@ public partial class Brush : Node3D
                     Height = len,
                     TopRadius = radius,
                     BottomRadius = radius,
+                    Material = beamMat,
+                    CapTop = false,
+                    CapBottom = false,
+                    Rings = 64,
                 },
                 Transform = new Transform3D(new Basis(right, up, right.Cross(up)), (a + b) * 0.5f),
             };
@@ -99,6 +106,10 @@ public partial class Brush : Node3D
             Height = len,
             TopRadius = radius,
             BottomRadius = radius,
+            Material = beamMat,
+            CapTop = false,
+            CapBottom = false,
+            Rings = 64,
         };
         beam.Transform = new Transform3D(new Basis(right, up, right.Cross(up)), (a + b) * 0.5f);
         return beam;

@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://c6ak6a87740nm"]
+
+[ext_resource type="Shader" uid="uid://b5cl78aajr2mq" path="res://scripts/Beam.gdshader" id="1_5fcjb"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_5fcjb"]
+seed = 22
+frequency = 0.0155
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5fcjb"]
+noise = SubResource("FastNoiseLite_5fcjb")
+seamless = true
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_5fcjb")
+shader_parameter/beam_color = Color(0, 0.6, 1, 1)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_5fcjb")
+shader_parameter/flow = Vector2(0, 1.5)
+shader_parameter/displacement = 0.05

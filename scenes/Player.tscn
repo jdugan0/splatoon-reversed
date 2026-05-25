@@ -4,12 +4,18 @@
 [ext_resource type="Script" uid="uid://igavyxtu1i4y" path="res://scripts/Brush.cs" id="2_v6fml"]
 [ext_resource type="PackedScene" uid="uid://cop3n3rgmumhe" path="res://art/models/SplashBlaster2Modified.tscn" id="3_3li8b"]
 [ext_resource type="Texture2D" uid="uid://be67dv38u48ce" path="res://art/sprites/Reticle1.svg" id="3_mdl7e"]
+[ext_resource type="Material" uid="uid://c6ak6a87740nm" path="res://art/BeamMaterial.tres" id="5_qu4a1"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_5q5h1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5q5h1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_v6fml"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_mdl7e"]
+material = ExtResource("5_qu4a1")
+top_radius = 0.1
+bottom_radius = 0.1
 
 [node name="Player" type="CharacterBody3D" unique_id=319218466 node_paths=PackedStringArray("head", "camera", "viewModelCamera", "area")]
 script = ExtResource("1_p0vlq")
@@ -45,6 +51,7 @@ script = ExtResource("2_v6fml")
 player = NodePath("../../..")
 muzzle = NodePath("../../../HUD/Control/SubViewportContainer/SubViewport/Camera3D/splashblaster2/Muzzle")
 GunRange = 100.0
+beamMat = ExtResource("5_qu4a1")
 
 [node name="Area3D" type="Area3D" parent="." unique_id=724033306]
 collision_layer = 0
@@ -101,4 +108,8 @@ cull_mask = 1047554
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.345, -0.33, -0.155)
 
 [node name="Muzzle" type="Node3D" parent="HUD/Control/SubViewportContainer/SubViewport/Camera3D/splashblaster2" unique_id=1454091994]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9020331, 0.08914359, 8.940697e-08)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.792, 0.089, 0)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1232337918]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.186944, 5.5852537, 0)
+mesh = SubResource("CylinderMesh_mdl7e")
