@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cfspjjmplybf"]
 
-[ext_resource type="Shader" path="res://scripts/DirtyWall.gdshader" id="1_wm61p"]
+[ext_resource type="Shader" uid="uid://cshodnmlnbrbm" path="res://scripts/DirtyWall.gdshader" id="1_wm61p"]
 [ext_resource type="Texture2D" uid="uid://c31aqr67vp834" path="res://art/sprites/dirt-1.Diffuse.png" id="2_4dtpq"]
 [ext_resource type="Script" uid="uid://1p5capb8kqfd" path="res://scripts/DirtyWall.cs" id="3_yxrnd"]
 
