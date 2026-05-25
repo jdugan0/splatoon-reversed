@@ -434,6 +434,5 @@ shape = SubResource("CylinderShape3D_l42jr")
 
 [node name="dirt" type="Node3D" parent="." unique_id=1551152302]
 
-[node name="DirtyWall" parent="dirt" unique_id=2134427755 node_paths=PackedStringArray("parentBox") instance=ExtResource("5_fnp6f")]
+[node name="DirtyWall" parent="dirt" unique_id=2134427755 instance=ExtResource("5_fnp6f")]
 transform = Transform3D(1, 0, 0, 0, -0.0432532, -0.99906415, 0, 0.99906415, -0.0432532, 13.9999695, 10.444662, 0)
-parentBox = NodePath(".")
