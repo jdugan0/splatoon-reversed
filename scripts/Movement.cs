@@ -161,6 +161,7 @@ public partial class Movement : CharacterBody3D
     {
         CheckDirty();
         //GD.Print(dirty);
+        GD.Print(CleaningManager.I.CleanFraction());
         float dt = (float)delta;
         Vector3 velocity = Velocity;
 

@@ -22,12 +22,8 @@ public partial class DirtyWall : MeshInstance3D
     private Texture2D JumpTexture;
     private Vector2 planeSize;
 
-    private double measureTimer;
-
-    [Export]
-    private double MeasureInterval = 0.2;
-
-    private Image cachedMask;
+    private float[,] shadowMask;
+    private float dirtSum;
 
     [Export]
     private CollisionShape3D collisionShape;
@@ -63,6 +59,15 @@ public partial class DirtyWall : MeshInstance3D
         mat.SetShaderParameter("dirt_mask", Mask.GetTexture());
         Mask.RenderTargetClearMode = SubViewport.ClearMode.Once;
         Mask.RenderTargetUpdateMode = SubViewport.UpdateMode.Once;
+
+        int sw = Mathf.Max(1, Mask.Size.X / 8);
+        int sh = Mathf.Max(1, Mask.Size.Y / 8);
+        shadowMask = new float[sw, sh];
+        for (int y = 0; y < sh; y++)
+        for (int x = 0; x < sw; x++)
+            shadowMask[x, y] = 1f;
+        dirtSum = sw * sh;
+
         CleaningManager.I.Register(this, planeSize.X * planeSize.Y);
     }
 
@@ -79,42 +84,60 @@ public partial class DirtyWall : MeshInstance3D
         var uv = new Vector2(local.X / planeSize.X + 0.5f, local.Z / planeSize.Y + 0.5f);
         Splat.Position = uv * (Vector2)Mask.Size;
         Mask.RenderTargetUpdateMode = SubViewport.UpdateMode.Once;
+
+        ApplyAnalyticalSplat(uv, Splat.Texture);
     }
 
-    public override void _Process(double delta)
+    private void ApplyAnalyticalSplat(Vector2 uv, Texture2D tex)
     {
-        measureTimer += delta;
-        if (measureTimer < MeasureInterval)
+        int w = shadowMask.GetLength(0);
+        int h = shadowMask.GetLength(1);
+        float rx = (tex.GetWidth() / (float)Mask.Size.X) * w * 0.5f;
+        float ry = (tex.GetHeight() / (float)Mask.Size.Y) * h * 0.5f;
+        if (rx <= 0f || ry <= 0f)
             return;
-        measureTimer = 0;
-        //Measure();
-    }
-
-    private void Measure()
-    {
-        var img = Mask.GetTexture().GetImage();
-        img.Resize(16, 16, Image.Interpolation.Bilinear);
-        cachedMask = img;
-        float sum = 0;
-        for (int y = 0; y < 16; y++)
-        for (int x = 0; x < 16; x++)
-            sum += img.GetPixel(x, y).R;
-        CleaningManager.I.Report(this, 1f - sum / 256f);
+        float cx = uv.X * w;
+        float cy = uv.Y * h;
+        int x0 = Mathf.Max(0, (int)(cx - rx));
+        int x1 = Mathf.Min(w - 1, (int)(cx + rx));
+        int y0 = Mathf.Max(0, (int)(cy - ry));
+        int y1 = Mathf.Min(h - 1, (int)(cy + ry));
+        float invRx2 = 1f / (rx * rx);
+        float invRy2 = 1f / (ry * ry);
+        float delta = 0f;
+        for (int y = y0; y <= y1; y++)
+        for (int x = x0; x <= x1; x++)
+        {
+            float dx = x + 0.5f - cx;
+            float dy = y + 0.5f - cy;
+            float d2 = dx * dx * invRx2 + dy * dy * invRy2;
+            if (d2 >= 1f)
+                continue;
+            float before = shadowMask[x, y];
+            float after = Mathf.Max(0f, before - (1f - d2));
+            shadowMask[x, y] = after;
+            delta += before - after;
+        }
+        if (delta > 0f)
+        {
+            dirtSum -= delta;
+            CleaningManager.I.Report(this, dirtSum / (w * h));
+        }
     }
 
     public float? SampleDirtAt(Vector3 worldHit)
     {
-        if (cachedMask == null)
+        if (shadowMask == null)
             return null;
         var local = GlobalTransform.AffineInverse() * worldHit;
         float u = local.X / planeSize.X + 0.5f;
         float v = local.Z / planeSize.Y + 0.5f;
         if (u < 0 || u > 1 || v < 0 || v > 1)
             return null;
-        int w = cachedMask.GetWidth(),
-            h = cachedMask.GetHeight();
+        int w = shadowMask.GetLength(0);
+        int h = shadowMask.GetLength(1);
         int x = Mathf.Clamp((int)(u * w), 0, w - 1);
         int y = Mathf.Clamp((int)(v * h), 0, h - 1);
-        return 1f - cachedMask.GetPixel(x, y).R;
+        return shadowMask[x, y];
     }
 }

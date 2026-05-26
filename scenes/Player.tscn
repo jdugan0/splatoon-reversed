@@ -12,6 +12,23 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_v6fml"]
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qu4a1"]
+angle_min = -720.0
+angle_max = 720.0
+spread = 180.0
+initial_velocity_min = 85.06
+initial_velocity_max = 139.9
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_70d11"]
+albedo_color = Color(0, 0.6, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cw2d6"]
+material = SubResource("StandardMaterial3D_70d11")
+size = Vector3(1, 1, 0.1)
+
+[sub_resource type="Skin" id="Skin_khinc"]
+
 [sub_resource type="CylinderMesh" id="CylinderMesh_mdl7e"]
 material = ExtResource("5_qu4a1")
 top_radius = 0.1
@@ -109,6 +126,15 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.34
 
 [node name="Muzzle" type="Node3D" parent="HUD/Control/SubViewportContainer/SubViewport/Camera3D/splashblaster2" unique_id=1454091994]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.792, 0.089, 0)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="HUD/Control/SubViewportContainer/SubViewport/Camera3D/splashblaster2/Muzzle" unique_id=820041492]
+emitting = false
+amount = 50
+lifetime = 0.01
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_qu4a1")
+draw_pass_1 = SubResource("BoxMesh_cw2d6")
+draw_skin = SubResource("Skin_khinc")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1232337918]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.186944, 5.5852537, 0)
