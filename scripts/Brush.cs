@@ -42,7 +42,9 @@ public partial class Brush : Node3D
             if (result.Count > 0)
             {
                 var hitPos = result["position"].As<Vector3>();
-                var toMuzzle = -(muzzle.GlobalPosition - hitPos).Normalized();
+                var hitNormal = result["normal"].As<Vector3>();
+                var incident = (hitPos - muzzle.GlobalPosition).Normalized();
+                var reflected = -(incident - 2f * incident.Dot(hitNormal) * hitNormal).Normalized();
                 // player.AddForce(-(recoilForce * (hitPos - player.GlobalPosition).Normalized()));
                 currBeam = MakeCylinder(currBeam, muzzle.GlobalPosition, hitPos, 0.1f);
                 var worldXform = currBeam.Transform;
@@ -54,11 +56,11 @@ public partial class Brush : Node3D
                 }
 
                 var refVec =
-                    Mathf.Abs(toMuzzle.Dot(Vector3.Up)) > 0.999f ? Vector3.Right : Vector3.Up;
-                var xAxis = toMuzzle.Cross(refVec).Normalized();
-                var yAxis = toMuzzle.Cross(xAxis).Normalized();
+                    Mathf.Abs(reflected.Dot(Vector3.Up)) > 0.999f ? Vector3.Right : Vector3.Up;
+                var xAxis = reflected.Cross(refVec).Normalized();
+                var yAxis = reflected.Cross(xAxis).Normalized();
                 particleHit.GlobalTransform = new Transform3D(
-                    new Basis(xAxis, yAxis, toMuzzle),
+                    new Basis(xAxis, yAxis, reflected),
                     hitPos
                 );
                 particleHit.Emitting = true;

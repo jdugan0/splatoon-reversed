@@ -236,11 +236,13 @@ public partial class Movement : CharacterBody3D
             && dashTimer > 0
             && !IsOnWallOnly()
             && currentDashes > 0
+            && wishDir.LengthSquared() > 0.01
+            && wishDir.Dot(dashDir) < 0.9
         )
         {
+            dashDir = wishDir;
             dashTimer = DashTime;
             currentDashes--;
-            dashDir = wishDir;
             AudioManager.instance.PlaySFX("generic-woosh");
         }
 
@@ -257,7 +259,7 @@ public partial class Movement : CharacterBody3D
             if (dashing)
             {
                 dashing = false;
-                vVel = Math.Min(cachedVvel, vVel);
+                // vVel = Math.Min(cachedVvel, vVel);
             }
             if (IsOnFloor())
             {
