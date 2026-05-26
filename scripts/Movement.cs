@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 public partial class Movement : CharacterBody3D
@@ -256,7 +257,7 @@ public partial class Movement : CharacterBody3D
             if (dashing)
             {
                 dashing = false;
-                vVel = cachedVvel;
+                vVel = Math.Min(cachedVvel, vVel);
             }
             if (IsOnFloor())
             {
