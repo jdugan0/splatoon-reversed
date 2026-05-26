@@ -11,6 +11,9 @@ public partial class Brush : Node3D
     private float recoilForce = 10f;
 
     [Export]
+    GpuParticles3D particleHit;
+
+    [Export]
     private Node3D muzzle;
 
     [Export]
@@ -18,6 +21,9 @@ public partial class Brush : Node3D
 
     [Export]
     private Material beamMat;
+
+    [Export]
+    GpuParticles3D muzzleParticle;
 
     public override void _Ready() { }
 
@@ -36,18 +42,30 @@ public partial class Brush : Node3D
             if (result.Count > 0)
             {
                 var hitPos = result["position"].As<Vector3>();
+                var toMuzzle = -(muzzle.GlobalPosition - hitPos).Normalized();
                 // player.AddForce(-(recoilForce * (hitPos - player.GlobalPosition).Normalized()));
-                if (muzzle.GlobalPosition.DistanceTo(hitPos) > 0.75f)
-                {
-                    currBeam = MakeCylinder(currBeam, muzzle.GlobalPosition, hitPos, 0.1f);
-                    var worldXform = currBeam.Transform;
-                    currBeam.GlobalTransform = worldXform;
-                }
+                currBeam = MakeCylinder(currBeam, muzzle.GlobalPosition, hitPos, 0.1f);
+                var worldXform = currBeam.Transform;
+                currBeam.GlobalTransform = worldXform;
                 var collider = result["collider"].As<Node>().GetParent();
                 if (collider != null && collider is DirtyWall c)
                 {
                     c.Paint(result["position"].AsVector3(), DirtyWall.SplatType.BRUSH);
                 }
+
+                var refVec =
+                    Mathf.Abs(toMuzzle.Dot(Vector3.Up)) > 0.999f ? Vector3.Right : Vector3.Up;
+                var xAxis = toMuzzle.Cross(refVec).Normalized();
+                var yAxis = toMuzzle.Cross(xAxis).Normalized();
+                particleHit.GlobalTransform = new Transform3D(
+                    new Basis(xAxis, yAxis, toMuzzle),
+                    hitPos
+                );
+                particleHit.Emitting = true;
+            }
+            else
+            {
+                particleHit.Emitting = false;
             }
         }
         else
@@ -57,6 +75,7 @@ public partial class Brush : Node3D
                 currBeam.QueueFree();
                 currBeam = null;
             }
+            particleHit.Emitting = false;
         }
 
         //SFX
@@ -65,12 +84,14 @@ public partial class Brush : Node3D
             AudioManager.instance.PlaySFX("gun-spray-start");
             AudioManager.instance.PlaySFX("gun-spray-loop");
             AudioManager.instance.CancelSFX("gun-spray-end");
+            muzzleParticle.Emitting = true;
         }
         if (Input.IsActionJustReleased("fire"))
         {
             AudioManager.instance.PlaySFX("gun-spray-end");
             AudioManager.instance.CancelSFX("gun-spray-start");
             AudioManager.instance.CancelSFX("gun-spray-loop");
+            muzzleParticle.Emitting = false;
         }
         //END OF SFX
     }
@@ -94,7 +115,7 @@ public partial class Brush : Node3D
                     Material = beamMat,
                     CapTop = false,
                     CapBottom = false,
-                    Rings = 64,
+                    Rings = Mathf.CeilToInt(10 * len),
                 },
                 Transform = new Transform3D(new Basis(right, up, right.Cross(up)), (a + b) * 0.5f),
             };
@@ -109,7 +130,7 @@ public partial class Brush : Node3D
             Material = beamMat,
             CapTop = false,
             CapBottom = false,
-            Rings = 64,
+            Rings = Mathf.CeilToInt(10 * len),
         };
         beam.Transform = new Transform3D(new Basis(right, up, right.Cross(up)), (a + b) * 0.5f);
         return beam;
