@@ -91,6 +91,8 @@ public partial class Movement : CharacterBody3D
 
     private bool dashing = false;
 
+    private float cachedVvel = 0;
+
     public override void _Ready()
     {
         Input.MouseMode = Input.MouseModeEnum.Captured;
@@ -224,7 +226,20 @@ public partial class Movement : CharacterBody3D
             Vector3 forward = (-camera.GlobalTransform.Basis.Z).Normalized();
             dashDir = forward;
             dashTimer = DashTime;
+            cachedVvel = vVel;
             currentDashes--;
+            AudioManager.instance.PlaySFX("generic-woosh");
+        }
+        else if (
+            Input.IsActionJustPressed("dash")
+            && dashTimer > 0
+            && !IsOnWallOnly()
+            && currentDashes > 0
+        )
+        {
+            dashTimer = DashTime;
+            currentDashes--;
+            dashDir = wishDir;
             AudioManager.instance.PlaySFX("generic-woosh");
         }
 
@@ -241,7 +256,7 @@ public partial class Movement : CharacterBody3D
             if (dashing)
             {
                 dashing = false;
-                vVel = 0;
+                vVel = cachedVvel;
             }
             if (IsOnFloor())
             {
