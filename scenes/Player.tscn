@@ -135,6 +135,9 @@ muzzle = NodePath("../../../HUD/Control/SubViewportContainer/SubViewport/Camera3
 GunRange = 100.0
 beamMat = SubResource("ShaderMaterial_bruh7")
 muzzleParticle = NodePath("../../../HUD/Control/SubViewportContainer/SubViewport/Camera3D/splashblaster2/Muzzle/MuzzleParticle")
+scatterChance = 0.45
+scatterMinScale = 0.8
+scatterMaxScale = 0.95
 
 [node name="Area3D" type="Area3D" parent="." unique_id=724033306]
 collision_layer = 0

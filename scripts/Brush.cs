@@ -25,6 +25,21 @@ public partial class Brush : Node3D
     [Export]
     GpuParticles3D muzzleParticle;
 
+    [Export(PropertyHint.Range, "0,1,0.01")]
+    private float scatterChance = 0.35f;
+
+    [Export]
+    private float scatterMinDist = 0.15f;
+
+    [Export]
+    private float scatterMaxDist = 0.5f;
+
+    [Export]
+    private float scatterMinScale = 0.3f;
+
+    [Export]
+    private float scatterMaxScale = 0.6f;
+
     public override void _Ready() { }
 
     public override void _Process(double delta)
@@ -52,7 +67,24 @@ public partial class Brush : Node3D
                 var collider = result["collider"].As<Node>().GetParent();
                 if (collider != null && collider is DirtyWall c)
                 {
-                    c.Paint(result["position"].AsVector3(), DirtyWall.SplatType.BRUSH);
+                    Vector3 paintPos = hitPos;
+                    float paintScale = 1f;
+                    if (GD.Randf() < scatterChance)
+                    {
+                        var nRef =
+                            Mathf.Abs(hitNormal.Dot(Vector3.Up)) > 0.999f
+                                ? Vector3.Right
+                                : Vector3.Up;
+                        var tangent = hitNormal.Cross(nRef).Normalized();
+                        var bitangent = hitNormal.Cross(tangent).Normalized();
+                        float angle = GD.Randf() * Mathf.Tau;
+                        float dist = (float)GD.RandRange(scatterMinDist, scatterMaxDist);
+                        paintPos =
+                            hitPos
+                            + (tangent * Mathf.Cos(angle) + bitangent * Mathf.Sin(angle)) * dist;
+                        paintScale = (float)GD.RandRange(scatterMinScale, scatterMaxScale);
+                    }
+                    c.Paint(paintPos, DirtyWall.SplatType.BRUSH, paintScale);
                 }
 
                 var refVec =

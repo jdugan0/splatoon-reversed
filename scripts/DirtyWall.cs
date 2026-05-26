@@ -71,7 +71,7 @@ public partial class DirtyWall : MeshInstance3D
         CleaningManager.I.Register(this, planeSize.X * planeSize.Y);
     }
 
-    public void Paint(Vector3 worldHit, SplatType splatType)
+    public void Paint(Vector3 worldHit, SplatType splatType, float scale = 1f)
     {
         Splat.Texture = splatType switch
         {
@@ -79,21 +79,22 @@ public partial class DirtyWall : MeshInstance3D
             SplatType.JUMP => JumpTexture,
             _ => BrushTexture,
         };
+        Splat.Scale = Vector2.One * scale;
         Splat.Visible = true;
         var local = GlobalTransform.AffineInverse() * worldHit;
         var uv = new Vector2(local.X / planeSize.X + 0.5f, local.Z / planeSize.Y + 0.5f);
         Splat.Position = uv * (Vector2)Mask.Size;
         Mask.RenderTargetUpdateMode = SubViewport.UpdateMode.Once;
 
-        ApplyAnalyticalSplat(uv, Splat.Texture);
+        ApplyAnalyticalSplat(uv, Splat.Texture, scale);
     }
 
-    private void ApplyAnalyticalSplat(Vector2 uv, Texture2D tex)
+    private void ApplyAnalyticalSplat(Vector2 uv, Texture2D tex, float scale)
     {
         int w = shadowMask.GetLength(0);
         int h = shadowMask.GetLength(1);
-        float rx = (tex.GetWidth() / (float)Mask.Size.X) * w * 0.5f;
-        float ry = (tex.GetHeight() / (float)Mask.Size.Y) * h * 0.5f;
+        float rx = (tex.GetWidth() / (float)Mask.Size.X) * w * 0.5f * scale;
+        float ry = (tex.GetHeight() / (float)Mask.Size.Y) * h * 0.5f * scale;
         if (rx <= 0f || ry <= 0f)
             return;
         float cx = uv.X * w;
