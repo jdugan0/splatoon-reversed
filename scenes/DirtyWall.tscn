@@ -27,16 +27,16 @@ fill_to = Vector2(1, 0.5)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_yxrnd"]
 gradient = SubResource("Gradient_yxrnd")
-width = 128
-height = 128
+width = 384
+height = 384
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.5)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_76hdp"]
 gradient = SubResource("Gradient_yxrnd")
-width = 384
-height = 384
+width = 512
+height = 512
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.5)
