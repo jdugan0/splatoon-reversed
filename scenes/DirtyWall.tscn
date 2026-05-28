@@ -53,6 +53,7 @@ BrushTexture = SubResource("GradientTexture2D_j824a")
 WalkTexture = SubResource("GradientTexture2D_yxrnd")
 JumpTexture = SubResource("GradientTexture2D_76hdp")
 collisionShape = NodePath("StaticBody3D/CollisionShape3D")
+scaleFactor = 0.1
 
 [node name="SubViewport" type="SubViewport" parent="." unique_id=517020842]
 transparent_bg = true

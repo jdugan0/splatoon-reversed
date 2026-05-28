@@ -31,6 +31,9 @@ public partial class DirtyWall : MeshInstance3D
     [Export]
     private MeshInstance3D parentBox;
 
+    [Export]
+    private float scaleFactor = 0.5f;
+
     public enum SplatType
     {
         BRUSH,
@@ -50,8 +53,8 @@ public partial class DirtyWall : MeshInstance3D
         collisionShape.Shape = (Shape3D)collisionShape.Shape.Duplicate();
         collisionShape.Shape.Set("size", new Vector3(planeSize.X, 0, planeSize.Y));
         Mask.Size = new Vector2I(
-            Mathf.CeilToInt(planeSize.X * MaskPixelsPerMeter),
-            Mathf.CeilToInt(planeSize.Y * MaskPixelsPerMeter)
+            Mathf.CeilToInt(planeSize.X * MaskPixelsPerMeter * scaleFactor),
+            Mathf.CeilToInt(planeSize.Y * MaskPixelsPerMeter * scaleFactor)
         );
         var mat = (ShaderMaterial)GetActiveMaterial(0).Duplicate();
         SetSurfaceOverrideMaterial(0, mat);
@@ -79,7 +82,7 @@ public partial class DirtyWall : MeshInstance3D
             SplatType.JUMP => JumpTexture,
             _ => BrushTexture,
         };
-        Splat.Scale = Vector2.One * scale;
+        Splat.Scale = Vector2.One * scale * scaleFactor;
         Splat.Visible = true;
         var local = GlobalTransform.AffineInverse() * worldHit;
         var uv = new Vector2(local.X / planeSize.X + 0.5f, local.Z / planeSize.Y + 0.5f);
